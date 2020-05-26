@@ -33,6 +33,7 @@ dependencies:
   google_maps_flutter: ^0.5.28+1
   font_awesome_flutter: ^8.8.1
   undraw: ^1.0.2
+  uuid: ^2.0.4
 
 dev_dependencies:
   flutter_test:

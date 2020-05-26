@@ -31,7 +31,7 @@ class AppTextInputWIdget extends StatelessWidget {
 
 class AppTextSmallInputWIdget extends StatelessWidget {
   final String labelText;
-  final IconData prefixIcon;
+  final Widget prefixIcon;
   final bool obscureText;
   final Color prefixColor;
   final TextStyle labelTextSTyle;
@@ -51,18 +51,14 @@ class AppTextSmallInputWIdget extends StatelessWidget {
       decoration: InputDecoration(
           labelText: labelText,
           labelStyle: labelTextSTyle,
-          prefixIcon: Icon(
-            prefixIcon,
-            color: prefixColor,
-            size: 20,
-          ),
+          prefixIcon: prefixIcon,
           suffix: Icon(
             Icons.close,
             color: Constant.primaryColorDark,
             size: 15,
           ),
-          enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Constant.primaryColorDark))),
+          enabledBorder:
+              UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey))),
       obscureText: obscureText,
     );
   }

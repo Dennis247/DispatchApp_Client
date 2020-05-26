@@ -77,21 +77,27 @@ class _HompePageState extends State<HompePage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      color: Colors.transparent,
+                      color: Constant.primaryColorLight,
                       width: appSize.width,
                       child: Column(
                         children: <Widget>[
                           AppTextSmallInputWIdget(
                             labelText: "From",
                             obscureText: false,
-                            prefixIcon: FontAwesomeIcons.truck,
+                            prefixIcon: Image.asset(
+                              "assets/images/start.png",
+                              scale: 2,
+                            ),
                             prefixColor: Colors.green,
                             labelTextSTyle: AppTextStyles.greenlabelTextStyle,
                           ),
                           AppTextSmallInputWIdget(
                             labelText: "To",
                             obscureText: false,
-                            prefixIcon: Icons.pin_drop,
+                            prefixIcon: Image.asset(
+                              "assets/images//end.png",
+                              scale: 2,
+                            ),
                             prefixColor: Colors.red,
                             labelTextSTyle: AppTextStyles.redlabelTextStyle,
                           ),

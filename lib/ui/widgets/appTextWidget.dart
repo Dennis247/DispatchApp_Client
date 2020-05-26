@@ -5,7 +5,7 @@ class AppTextWidget {
   static TextSpan appTextSpan(String startText, String endText) {
     return TextSpan(
       style: GoogleFonts.poppins(
-        fontSize: 24,
+        fontSize: 20,
         color: const Color(0xff0d1724),
       ),
       children: [

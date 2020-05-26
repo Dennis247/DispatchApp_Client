@@ -44,7 +44,7 @@ class PlaceDetail {
         this.formattedAddress = json['formatted_address'],
         this.formattedPhoneNumber = json['formatted_phone_number'],
         this.name = json['name'],
-        this.rating = json['rating'].toDouble(),
+        this.rating = 0.0,
         this.vicinity = json['vicinity'],
         this.website = json['website'] ?? '',
         this.lat = json['geometry']['location']['lat'],

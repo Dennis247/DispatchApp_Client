@@ -34,6 +34,8 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   undraw: ^1.0.2
   uuid: ^2.0.4
+  flutter_polyline_points: ^0.2.1
+  flutter_typeahead: ^1.8.1
 
 dev_dependencies:
   flutter_test:

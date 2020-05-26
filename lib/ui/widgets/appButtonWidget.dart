@@ -34,3 +34,36 @@ class AppButtonWudget extends StatelessWidget {
     );
   }
 }
+
+class AppSmallButtonWudget extends StatelessWidget {
+  final String buttonText;
+  final Function function;
+
+  const AppSmallButtonWudget({Key key, this.buttonText, this.function})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final appSzie = Constant.getAppSize(context);
+    return GestureDetector(
+      onTap: function,
+      child: Container(
+        alignment: Alignment.center,
+        child: Text(
+          buttonText,
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            color: Constant.primaryColorLight,
+            fontWeight: FontWeight.w500,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        width: appSzie.width * 0.5,
+        height: 40.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(45.0),
+          color: Constant.primaryColorDark,
+        ),
+      ),
+    );
+  }
+}

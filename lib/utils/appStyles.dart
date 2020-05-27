@@ -19,8 +19,13 @@ class AppTextStyles {
   );
 
   static final smallgreyTextStyle = GoogleFonts.poppins(
-    fontSize: 11,
+    fontSize: 10,
     color: Colors.grey[700],
+  );
+
+  static final smallprimaryColorTextStyle = GoogleFonts.poppins(
+    fontSize: 10,
+    color: Constant.primaryColorDark,
   );
 
   static final greylabelTextStyle = GoogleFonts.poppins(
@@ -33,4 +38,12 @@ class AppTextStyles {
 
   static final appLightTextStyle =
       GoogleFonts.poppins(fontSize: 14, color: Constant.primaryColorLight);
+
+  static final appLightHeaderTextStyle =
+      GoogleFonts.poppins(fontSize: 18, color: Constant.primaryColorLight);
+
+  static final appDarkHeaderTextStyle = GoogleFonts.poppins(
+      fontSize: 18,
+      color: Constant.primaryColorDark,
+      fontWeight: FontWeight.w600);
 }

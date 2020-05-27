@@ -4,6 +4,7 @@ import 'package:dispatch_app_client/model/dispatch.dart';
 import 'package:dispatch_app_client/model/placeDetail.dart';
 import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/provider/googleMpaProvider.dart';
+import 'package:dispatch_app_client/ui/pages/dispatch/recipientPage.dart';
 import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/ui/widgets/appDrawer.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
@@ -296,9 +297,9 @@ class _HompePageState extends State<HompePage> {
         setState(() {
           _selectedIdnex = index;
         });
-        final dispatch = dispatchProvider.createDispatch(
+        currentDispatch = dispatchProvider.createDispatch(
             dispatchType, _dispatchStartAddress, _dispatchEndAddress);
-        _buildDispatchConfirmationAlert(dispatch);
+        _buildBottomSheetConfirmation(currentDispatch, image);
         //show Dispatch Confirmation pop Up
       },
       child: Container(
@@ -332,6 +333,7 @@ class _HompePageState extends State<HompePage> {
       children: <Widget>[
         Container(
             alignment: Alignment.center,
+            color: Colors.transparent,
             height: 125,
             child: ListView(
               scrollDirection: Axis.horizontal,
@@ -367,36 +369,31 @@ class _HompePageState extends State<HompePage> {
   }
 
   _buildListTileDialogue(String title, String subTitle) {
-    return ListTile(
-      dense: true,
-      title: Text(
-        title,
-        style: AppTextStyles.smallgreyTextStyle,
-      ),
-      subtitle: Text(
-        subTitle,
-        style: AppTextStyles.labelTextStyle,
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          title,
+          style: AppTextStyles.smallgreyTextStyle,
+        ),
+        Text(
+          subTitle,
+          style: AppTextStyles.labelTextStyle,
+        ),
+      ],
     );
   }
 
-  _buildDispatchConfirmationAlert(Dispatch dispatch) {
+  _buildDispatchConfirmationAlert(Dispatch dispatch, String image) {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
               content: Container(
                 child: ListView(
                   children: <Widget>[
-                    AppBar(
-                      title: Text(
-                        dispatch.dispatchType,
-                        style: AppTextStyles.appLightTextStyle,
-                      ),
-                      centerTitle: true,
-                      automaticallyImplyLeading: false,
-                    ),
-                    SizedBox(
-                      height: 10,
+                    Image.asset(
+                      image,
                     ),
                     _buildListTileDialogue("Pick Up", dispatch.pickUpLocation),
                     Divider(),
@@ -404,6 +401,8 @@ class _HompePageState extends State<HompePage> {
                         "Delivery Location", dispatch.dispatchDestination),
                     Divider(),
                     _buildListTileDialogue("Total Distance", "50 KM"),
+                    Divider(),
+                    _buildListTileDialogue("Estimated Time", "1hr"),
                     Divider(),
                     _buildListTileDialogue("Base Delivery Fee", "N 1000"),
                     Divider(),
@@ -424,11 +423,72 @@ class _HompePageState extends State<HompePage> {
                   child: Text("OK"),
                   onPressed: () async {
                     Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(RecipientPage.routeName);
                   },
                   color: Constant.primaryColorDark,
                 ),
               ],
             ));
+  }
+
+  _buildBottomSheetConfirmation(Dispatch dispatch, String image) async {
+    final appSize = Constant.getAppSize(context);
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return Container(
+                height: appSize.height * 0.90,
+                decoration: new BoxDecoration(
+                    color: Color(0xffffffff),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(38.0),
+                        topRight: Radius.circular(38.0))),
+                child: Padding(
+                  padding: const EdgeInsets.all(35.0),
+                  child: ListView(
+                    children: <Widget>[
+                      Container(
+                        height: 125,
+                        width: 125,
+                        child: Image.asset(
+                          image,
+                        ),
+                      ),
+                      _buildListTileDialogue(
+                          "Pick Up", dispatch.pickUpLocation),
+                      Divider(),
+                      _buildListTileDialogue(
+                          "Delivery Location", dispatch.dispatchDestination),
+                      Divider(),
+                      _buildListTileDialogue("Total Distance", "50 KM"),
+                      Divider(),
+                      _buildListTileDialogue("Estimated Time", "1hr"),
+                      Divider(),
+                      _buildListTileDialogue("Base Delivery Fee", "N 1000"),
+                      Divider(),
+                      _buildListTileDialogue("Total Delivery Fee", "N 5000"),
+                      SizedBox(
+                        height: appSize.height * 0.02,
+                      ),
+                      AppSmallButtonWudget(
+                        function: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context)
+                              .pushNamed(RecipientPage.routeName);
+                        },
+                        buttonText: "PROCEED",
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        });
   }
 
   @override

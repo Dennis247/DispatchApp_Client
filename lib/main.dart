@@ -2,10 +2,15 @@ import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/provider/googleMpaProvider.dart';
 import 'package:dispatch_app_client/ui/pages/auth/loginPage.dart';
 import 'package:dispatch_app_client/ui/pages/auth/signUpPage.dart';
+import 'package:dispatch_app_client/ui/pages/dispatch/confirmDispatch.dart';
+import 'package:dispatch_app_client/ui/pages/dispatch/dispatchListPage.dart';
+import 'package:dispatch_app_client/ui/pages/dispatch/recipientPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'ui/pages/dispatch/dispatchHistoryPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,7 +34,11 @@ class MyApp extends StatelessWidget {
           home: LoginPage(),
           routes: {
             SignUpPage.routeName: (context) => SignUpPage(),
-            HompePage.routeName: (context) => HompePage()
+            HompePage.routeName: (context) => HompePage(),
+            RecipientPage.routeName: (context) => RecipientPage(),
+            ConfirmDispatch.routeName: (context) => ConfirmDispatch(),
+            DispatchListPage.routeName: (context) => DispatchListPage(),
+            DispatchHistoryPage.routeName: (context) => DispatchHistoryPage()
           },
         ));
   }

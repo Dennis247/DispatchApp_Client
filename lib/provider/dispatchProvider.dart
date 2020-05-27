@@ -3,6 +3,8 @@ import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 
+Dispatch currentDispatch;
+
 class DispatchProvider with ChangeNotifier {
   Uuid uuid = Uuid();
   Dispatch createDispatch(

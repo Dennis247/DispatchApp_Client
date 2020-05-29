@@ -38,7 +38,8 @@ class MyApp extends StatelessWidget {
             RecipientPage.routeName: (context) => RecipientPage(),
             ConfirmDispatch.routeName: (context) => ConfirmDispatch(),
             DispatchListPage.routeName: (context) => DispatchListPage(),
-            DispatchHistoryPage.routeName: (context) => DispatchHistoryPage()
+            DispatchHistoryPage.routeName: (context) => DispatchHistoryPage(),
+            DispatchListPage.routeName: (context) => DispatchListPage()
           },
         ));
   }

@@ -112,7 +112,7 @@ class _HompePageState extends State<HompePage> {
         PointLatLng(_startPlaceDetail.lat, _startPlaceDetail.lng),
         PointLatLng(_endPlaceDetail.lat, _endPlaceDetail.lng),
         travelMode: TravelMode.driving,
-        wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]);
+        wayPoints: []);
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));

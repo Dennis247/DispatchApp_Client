@@ -1,8 +1,10 @@
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchHistoryPage.dart';
+import 'package:dispatch_app_client/ui/pages/dispatch/dispatchListPage.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:share/share.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -48,10 +50,10 @@ class AppDrawer extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // Share.share(
-                    //   "https://github.com/Dennis247/green_taxi",
-                    //   subject: "Invite Your Friend To Green Taxi",
-                    // );
+                    Share.share(
+                      "https://github.com/Dennis247/green_taxi",
+                      subject: "Invite Your Friend To Green Taxi",
+                    );
                   },
                   child: Text(
                     "Invite Friends",
@@ -62,7 +64,9 @@ class AppDrawer extends StatelessWidget {
                   height: 15,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushNamed(DispatchListPage.routeName);
+                  },
                   child: Text(
                     "Settings",
                     style: AppTextStyles.appTextStyle,

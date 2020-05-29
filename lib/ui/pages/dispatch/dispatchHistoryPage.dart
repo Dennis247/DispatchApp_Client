@@ -1,3 +1,4 @@
+import 'package:dispatch_app_client/ui/widgets/dispatchHistoryWidget.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _DispatchHistoryPageState extends State<DispatchHistoryPage> {
     if (page == 0) return "ACTIVE";
     if (page == 1) return "PENDING";
     if (page == 2) return "COMPLETED";
+    if (page == 3) return "CANCELLED";
     return null;
   }
 
@@ -28,16 +30,13 @@ class _DispatchHistoryPageState extends State<DispatchHistoryPage> {
       appBar: AppBar(
         title: Text(
           getDispatchStatusTitle(_page),
-          style: AppTextStyles.appDarkHeaderTextStyle,
+          style: AppTextStyles.appLightHeaderTextStyle,
         ),
         centerTitle: true,
-        backgroundColor: Constant.primaryColorLight,
-        elevation: 0,
         automaticallyImplyLeading: false,
         leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
-              color: Constant.primaryColorDark,
             ),
             onPressed: () {
               Navigator.of(context).pop();
@@ -46,7 +45,13 @@ class _DispatchHistoryPageState extends State<DispatchHistoryPage> {
       body: Container(
         height: appSize.height,
         width: appSize.width,
-        child: Center(),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: 10,
+              itemBuilder: (context, index) => DispatchHistoryWidget()),
+        ),
       ),
       bottomNavigationBar: CurvedNavigationBar(
         key: _bottomNavigationKey,
@@ -55,17 +60,22 @@ class _DispatchHistoryPageState extends State<DispatchHistoryPage> {
         items: <Widget>[
           Icon(
             Icons.desktop_mac,
-            size: 30,
+            size: 25,
             color: Constant.primaryColorLight,
           ),
           Icon(
             Icons.list,
-            size: 30,
+            size: 25,
             color: Constant.primaryColorLight,
           ),
           Icon(
             Icons.account_balance,
-            size: 30,
+            size: 25,
+            color: Constant.primaryColorLight,
+          ),
+          Icon(
+            Icons.delete,
+            size: 25,
             color: Constant.primaryColorLight,
           ),
         ],

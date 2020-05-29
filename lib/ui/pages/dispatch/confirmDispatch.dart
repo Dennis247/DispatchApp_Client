@@ -58,6 +58,9 @@ class ConfirmDispatch extends StatelessWidget {
                   _buildConfrimRowItem(
                       "Delivery Location", currentDispatch.dispatchDestination),
                   Divider(),
+                  _buildConfrimRowItem(
+                      "Dispatch Type", currentDispatch.dispatchType),
+                  Divider(),
                   _buildConfrimRowItem("Total Distance", "50 KM"),
                   Divider(),
                   _buildConfrimRowItem("Estimated Time", "1hr"),

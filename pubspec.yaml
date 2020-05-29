@@ -37,6 +37,8 @@ dependencies:
   flutter_polyline_points: ^0.2.1
   flutter_typeahead: ^1.8.1
   curved_navigation_bar: ^0.3.2
+  share: ^0.6.4+3
+  timeago: ^2.0.26
 
 dev_dependencies:
   flutter_test:

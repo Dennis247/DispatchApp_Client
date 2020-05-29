@@ -23,6 +23,14 @@ class AppTextStyles {
     color: Colors.grey[700],
   );
 
+  static final smallgreenTextStyle = GoogleFonts.poppins(
+    fontSize: 10,
+    color: Colors.green,
+  );
+
+  static final smallWhiteTextStyle = GoogleFonts.poppins(
+      fontSize: 10, color: Colors.white, fontWeight: FontWeight.w600);
+
   static final smallprimaryColorTextStyle = GoogleFonts.poppins(
     fontSize: 10,
     color: Constant.primaryColorDark,
@@ -35,6 +43,9 @@ class AppTextStyles {
 
   static final appTextStyle =
       GoogleFonts.poppins(fontSize: 14, color: Constant.primaryColorDark);
+
+  static final appSmallTextStyle =
+      GoogleFonts.poppins(fontSize: 11, color: Constant.primaryColorDark);
 
   static final appLightTextStyle =
       GoogleFonts.poppins(fontSize: 14, color: Constant.primaryColorLight);

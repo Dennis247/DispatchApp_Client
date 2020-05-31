@@ -6,9 +6,12 @@ import 'package:dispatch_app_client/ui/pages/dispatch/confirmDispatch.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchListPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/recipientPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
+import 'package:dispatch_app_client/ui/pages/settings/creditCardPage.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:dispatch_app_client/ui/pages/support/supportPage.dart';
+import 'package:dispatch_app_client/ui/pages/settings/settingsPage.dart';
 
 import 'ui/pages/dispatch/dispatchHistoryPage.dart';
 
@@ -39,7 +42,10 @@ class MyApp extends StatelessWidget {
             ConfirmDispatch.routeName: (context) => ConfirmDispatch(),
             DispatchListPage.routeName: (context) => DispatchListPage(),
             DispatchHistoryPage.routeName: (context) => DispatchHistoryPage(),
-            DispatchListPage.routeName: (context) => DispatchListPage()
+            DispatchListPage.routeName: (context) => DispatchListPage(),
+            SupportPage.routeName: (context) => SupportPage(),
+            SettingsPage.routeName: (context) => SettingsPage(),
+            CreditCardPage.routeName: (context) => CreditCardPage()
           },
         ));
   }

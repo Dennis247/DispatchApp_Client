@@ -5,6 +5,8 @@ import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share/share.dart';
+import 'package:dispatch_app_client/ui/pages/support/supportPage.dart';
+import 'package:dispatch_app_client/ui/pages/settings/settingsPage.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -12,19 +14,21 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          ListTile(
-            leading: Icon(
-              FontAwesomeIcons.user,
-              color: Constant.primaryColorDark,
-              size: 40,
-            ),
-            title: Text(
-              "Good Morning",
-              style: AppTextStyles.smallprimaryColorTextStyle,
-            ),
-            subtitle: Text(
-              "Osagiede Dennis",
-              style: AppTextStyles.appTextStyle,
+          Container(
+            child: ListTile(
+              leading: Icon(
+                FontAwesomeIcons.user,
+                color: Constant.primaryColorDark,
+                size: 50,
+              ),
+              title: Text(
+                "Good Morning",
+                style: AppTextStyles.smallprimaryColorTextStyle,
+              ),
+              subtitle: Text(
+                "Osagiede Dennis",
+                style: AppTextStyles.appDarkHeaderTextStyle,
+              ),
             ),
           ),
           Divider(),
@@ -42,7 +46,7 @@ class AppDrawer extends StatelessWidget {
                   },
                   child: Text(
                     "Dispatch History",
-                    style: AppTextStyles.appTextStyle,
+                    style: AppTextStyles.appDarkHeaderTextStyle,
                   ),
                 ),
                 SizedBox(
@@ -57,7 +61,7 @@ class AppDrawer extends StatelessWidget {
                   },
                   child: Text(
                     "Invite Friends",
-                    style: AppTextStyles.appTextStyle,
+                    style: AppTextStyles.appDarkHeaderTextStyle,
                   ),
                 ),
                 SizedBox(
@@ -65,21 +69,11 @@ class AppDrawer extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed(DispatchListPage.routeName);
+                    Navigator.of(context).pushNamed(SettingsPage.routeName);
                   },
                   child: Text(
                     "Settings",
-                    style: AppTextStyles.appTextStyle,
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Text(
-                    "Support",
-                    style: AppTextStyles.appTextStyle,
+                    style: AppTextStyles.appDarkHeaderTextStyle,
                   ),
                 ),
                 SizedBox(
@@ -87,9 +81,22 @@ class AppDrawer extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/');
+                    Navigator.of(context).pushNamed(SupportPage.routeName);
                   },
-                  child: Text("Log Out", style: AppTextStyles.appTextStyle),
+                  child: Text(
+                    "Support",
+                    style: AppTextStyles.appDarkHeaderTextStyle,
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacementNamed('/');
+                  },
+                  child: Text("Log Out",
+                      style: AppTextStyles.appDarkHeaderTextStyle),
                 ),
               ],
             ),

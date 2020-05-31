@@ -79,7 +79,9 @@ class ConfirmDispatch extends StatelessWidget {
                     alignment: Alignment.center,
                     child: AppButtonWudget(
                       buttonText: "CONFIRM DISPATCH",
-                      function: () {},
+                      function: () {
+                        Navigator.of(context).pushNamed("/");
+                      },
                     ),
                   )
                 ],

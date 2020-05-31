@@ -35,7 +35,7 @@ class DispatchHistoryWidget extends StatelessWidget {
               Text('$point', style: AppTextStyles.smallgreyTextStyle),
               Text(
                 title,
-                style: AppTextStyles.appSmallTextStyle,
+                style: AppTextStyles.appTextStyle,
                 softWrap: false,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -106,7 +106,9 @@ class DispatchHistoryWidget extends StatelessWidget {
                     SizedBox(
                       height: 5,
                     ),
-                    Divider(),
+                    Divider(
+                      color: Colors.grey,
+                    ),
                     SizedBox(
                       height: 5,
                     ),
@@ -114,9 +116,11 @@ class DispatchHistoryWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         _buildBottomInfo(Icons.account_balance, "598598498",
-                            Colors.deepPurple),
-                        _buildBottomInfo(FontAwesomeIcons.clock,
-                            timeago.format(DateTime.now()), Colors.deepPurple)
+                            Constant.primaryColorDark),
+                        _buildBottomInfo(
+                            FontAwesomeIcons.clock,
+                            timeago.format(DateTime.now()),
+                            Constant.primaryColorDark)
                       ],
                     ),
                   ],

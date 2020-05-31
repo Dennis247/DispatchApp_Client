@@ -32,7 +32,7 @@ class AppTextStyles {
       fontSize: 10, color: Colors.white, fontWeight: FontWeight.w600);
 
   static final smallprimaryColorTextStyle = GoogleFonts.poppins(
-    fontSize: 10,
+    fontSize: 12,
     color: Constant.primaryColorDark,
   );
 
@@ -44,14 +44,13 @@ class AppTextStyles {
   static final appTextStyle =
       GoogleFonts.poppins(fontSize: 14, color: Constant.primaryColorDark);
 
-  static final appSmallTextStyle =
-      GoogleFonts.poppins(fontSize: 11, color: Constant.primaryColorDark);
-
   static final appLightTextStyle =
       GoogleFonts.poppins(fontSize: 14, color: Constant.primaryColorLight);
 
-  static final appLightHeaderTextStyle =
-      GoogleFonts.poppins(fontSize: 18, color: Constant.primaryColorLight);
+  static final appLightHeaderTextStyle = GoogleFonts.poppins(
+      fontSize: 18,
+      color: Constant.primaryColorLight,
+      fontWeight: FontWeight.w600);
 
   static final appDarkHeaderTextStyle = GoogleFonts.poppins(
       fontSize: 18,

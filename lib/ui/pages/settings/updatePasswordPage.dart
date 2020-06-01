@@ -4,15 +4,15 @@ import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class MyProfilePage extends StatelessWidget {
-  static final String routeName = "myprofile";
+class UpdatePassowrd extends StatelessWidget {
+  static final String routeName = "update-password";
   @override
   Widget build(BuildContext context) {
     final appSize = Constant.getAppSize(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "MY PROFILE",
+          "UPDATE PASSWORD",
           style: AppTextStyles.appLightHeaderTextStyle,
         ),
         centerTitle: true,
@@ -39,7 +39,7 @@ class MyProfilePage extends StatelessWidget {
           child: ListView(
             children: <Widget>[
               Icon(
-                FontAwesomeIcons.user,
+                FontAwesomeIcons.lock,
                 size: 150,
                 color: Constant.primaryColorDark,
               ),
@@ -47,7 +47,7 @@ class MyProfilePage extends StatelessWidget {
                 height: appSize.height * 0.03,
               ),
               Text(
-                "profile",
+                "password",
                 textAlign: TextAlign.center,
                 style: AppTextStyles.smallprimaryColorTextStyle,
               ),
@@ -59,25 +59,17 @@ class MyProfilePage extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     AppTextInputWIdget(
-                      labelText: "Full Name",
-                      prefixIcon: FontAwesomeIcons.user,
-                      obscureText: false,
+                      labelText: "New Password",
+                      prefixIcon: Icons.lock_outline,
+                      obscureText: true,
                     ),
                     SizedBox(
                       height: appSize.height * 0.02,
                     ),
                     AppTextInputWIdget(
-                      labelText: "email",
-                      prefixIcon: FontAwesomeIcons.envelope,
-                      obscureText: false,
-                    ),
-                    SizedBox(
-                      height: appSize.height * 0.02,
-                    ),
-                    AppTextInputWIdget(
-                      labelText: "phone",
-                      prefixIcon: FontAwesomeIcons.phone,
-                      obscureText: false,
+                      labelText: "Confrim Password",
+                      prefixIcon: Icons.lock_outline,
+                      obscureText: true,
                     ),
                   ],
                 ),

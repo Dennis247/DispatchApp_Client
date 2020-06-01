@@ -47,6 +47,9 @@ class AppTextStyles {
   static final appLightTextStyle =
       GoogleFonts.poppins(fontSize: 14, color: Constant.primaryColorLight);
 
+  static final creditCardtTextStyle =
+      GoogleFonts.poppins(fontSize: 14, color: Colors.blue);
+
   static final appLightHeaderTextStyle = GoogleFonts.poppins(
       fontSize: 18,
       color: Constant.primaryColorLight,

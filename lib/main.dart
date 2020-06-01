@@ -12,8 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:dispatch_app_client/ui/pages/support/supportPage.dart';
 import 'package:dispatch_app_client/ui/pages/settings/settingsPage.dart';
-
+import 'package:dispatch_app_client/ui/pages/settings/addCreditCardPage.dart';
 import 'ui/pages/dispatch/dispatchHistoryPage.dart';
+import 'ui/pages/settings/myProfilePage.dart';
+import 'ui/pages/settings/updatePasswordPage.dart';
+import 'utils/customRoute.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,9 +34,12 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Dispatch App',
           theme: ThemeData(
-            primaryColor: Constant.primaryColorDark,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
+              primaryColor: Constant.primaryColorDark,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              pageTransitionsTheme: PageTransitionsTheme(builders: {
+                TargetPlatform.iOS: CustomPageTransitionBuilder(),
+                TargetPlatform.android: CustomPageTransitionBuilder(),
+              })),
           home: LoginPage(),
           routes: {
             SignUpPage.routeName: (context) => SignUpPage(),
@@ -45,7 +51,10 @@ class MyApp extends StatelessWidget {
             DispatchListPage.routeName: (context) => DispatchListPage(),
             SupportPage.routeName: (context) => SupportPage(),
             SettingsPage.routeName: (context) => SettingsPage(),
-            CreditCardPage.routeName: (context) => CreditCardPage()
+            CreditCardPage.routeName: (context) => CreditCardPage(),
+            AddCreditCardPage.routeName: (context) => AddCreditCardPage(),
+            MyProfilePage.routeName: (context) => MyProfilePage(),
+            UpdatePassowrd.routeName: (context) => UpdatePassowrd(),
           },
         ));
   }

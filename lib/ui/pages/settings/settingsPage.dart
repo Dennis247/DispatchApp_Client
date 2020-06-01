@@ -1,4 +1,6 @@
 import 'package:dispatch_app_client/ui/pages/settings/creditCardPage.dart';
+import 'package:dispatch_app_client/ui/pages/settings/updatePasswordPage.dart';
+import 'package:dispatch_app_client/ui/pages/settings/myProfilePage.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +54,7 @@ class SettingsPage extends StatelessWidget {
           ),
           Divider(
             endIndent: 25,
+            color: Colors.grey,
           )
         ],
       ),
@@ -100,7 +103,9 @@ class SettingsPage extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 30, top: 30),
                 child: Column(
                   children: <Widget>[
-                    _buildRowWidget(FontAwesomeIcons.user, "My Profile", () {}),
+                    _buildRowWidget(FontAwesomeIcons.user, "My Profile", () {
+                      Navigator.of(context).pushNamed(MyProfilePage.routeName);
+                    }),
                     SizedBox(
                       height: appSize.height * 0.04,
                     ),
@@ -111,7 +116,10 @@ class SettingsPage extends StatelessWidget {
                     SizedBox(
                       height: appSize.height * 0.04,
                     ),
-                    _buildRowWidget(FontAwesomeIcons.lock, "Password", () {}),
+                    _buildRowWidget(FontAwesomeIcons.lock, "Update Password",
+                        () {
+                      Navigator.of(context).pushNamed(UpdatePassowrd.routeName);
+                    }),
                   ],
                 ),
               )

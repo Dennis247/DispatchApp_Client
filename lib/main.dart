@@ -1,9 +1,9 @@
+import 'package:dispatch_app_client/provider/authProvider.dart';
 import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/provider/googleMpaProvider.dart';
 import 'package:dispatch_app_client/ui/pages/auth/loginPage.dart';
 import 'package:dispatch_app_client/ui/pages/auth/signUpPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/confirmDispatch.dart';
-import 'package:dispatch_app_client/ui/pages/dispatch/dispatchListPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/recipientPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
 import 'package:dispatch_app_client/ui/pages/settings/creditCardPage.dart';
@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider.value(value: GoogleMapProvider()),
           ChangeNotifierProvider.value(value: DispatchProvider()),
+          ChangeNotifierProvider.value(value: AUthProvider()),
         ],
         child: MaterialApp(
           title: 'Dispatch App',
@@ -42,13 +43,12 @@ class MyApp extends StatelessWidget {
               })),
           home: LoginPage(),
           routes: {
+            LoginPage.routeName: (context) => LoginPage(),
             SignUpPage.routeName: (context) => SignUpPage(),
             HompePage.routeName: (context) => HompePage(),
             RecipientPage.routeName: (context) => RecipientPage(),
             ConfirmDispatch.routeName: (context) => ConfirmDispatch(),
-            DispatchListPage.routeName: (context) => DispatchListPage(),
             DispatchHistoryPage.routeName: (context) => DispatchHistoryPage(),
-            DispatchListPage.routeName: (context) => DispatchListPage(),
             SupportPage.routeName: (context) => SupportPage(),
             SettingsPage.routeName: (context) => SettingsPage(),
             CreditCardPage.routeName: (context) => CreditCardPage(),

@@ -6,14 +6,23 @@ class AppTextInputWIdget extends StatelessWidget {
   final String labelText;
   final IconData prefixIcon;
   final bool obscureText;
+  final TextEditingController controller;
+  final Function validator;
 
   const AppTextInputWIdget(
-      {Key key, this.labelText, this.prefixIcon, this.obscureText})
+      {Key key,
+      this.labelText,
+      this.prefixIcon,
+      this.obscureText,
+      this.controller,
+      this.validator})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: AppTextStyles.appTextStyle,
+      controller: controller,
+      validator: validator,
       decoration: InputDecoration(
           labelText: labelText,
           labelStyle: AppTextStyles.labelTextStyle,

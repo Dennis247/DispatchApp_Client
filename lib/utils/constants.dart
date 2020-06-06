@@ -77,7 +77,7 @@ class Constant {
 
   static final String baseSearchUrl =
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
-  static final String apiKey = 'AIzaSyCDJa_D_Ewcm8wE8OAH6uBQttSxALdoNUI';
+  static final String apiKey = 'AIzaSyBaSy0NPJ63AzVrji8aIqYx0Ilwm1acUZw';
   static final String dispatchPendingStatus = "penidng";
   static final String dispatchActiveStatus = "active";
   static final String dispatchCompletedStatus = "completed";

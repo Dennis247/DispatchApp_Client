@@ -39,6 +39,7 @@ class _SignUpPageState extends State<SignUpPage> {
     try {
       //do firebase sign up
       final User user = new User(
+          null,
           _fullNameController.text.trim(),
           _phoneNumberController.text.trim(),
           _emailController.text.trim(),

@@ -1,8 +1,10 @@
+import 'package:dispatch_app_client/provider/authProvider.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchHistoryPage.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:dispatch_app_client/ui/pages/support/supportPage.dart';
 import 'package:dispatch_app_client/ui/pages/settings/settingsPage.dart';
@@ -10,6 +12,7 @@ import 'package:dispatch_app_client/ui/pages/settings/settingsPage.dart';
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AUthProvider>(context, listen: false);
     return Drawer(
       child: ListView(
         children: <Widget>[
@@ -25,7 +28,7 @@ class AppDrawer extends StatelessWidget {
                 style: AppTextStyles.smallprimaryColorTextStyle,
               ),
               subtitle: Text(
-                "Osagiede Dennis",
+                loggedInUser.fullName,
                 style: AppTextStyles.appDarkHeaderTextStyle,
               ),
             ),
@@ -93,6 +96,7 @@ class AppDrawer extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).pushReplacementNamed('/');
+                    authProvider.logOut();
                   },
                   child: Text("Log Out",
                       style: AppTextStyles.appDarkHeaderTextStyle),

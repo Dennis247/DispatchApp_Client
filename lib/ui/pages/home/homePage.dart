@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dispatch_app_client/model/dispatch.dart';
 import 'package:dispatch_app_client/model/placeDetail.dart';
+import 'package:dispatch_app_client/model/response.dart';
 import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/provider/googleMpaProvider.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/recipientPage.dart';
@@ -244,7 +245,6 @@ class _HompePageState extends State<HompePage> {
             : _dispatchStartAddress = suggetion.description;
         isTo ? _endPlaceDetail = placeDetail : _startPlaceDetail = placeDetail;
         _moveCamera();
-        sessionToken = null;
       },
     );
   }
@@ -293,13 +293,20 @@ class _HompePageState extends State<HompePage> {
     final dispatchProvider =
         Provider.of<DispatchProvider>(context, listen: false);
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         setState(() {
           _selectedIdnex = index;
         });
-        currentDispatch = dispatchProvider.createDispatch(
-            dispatchType, _dispatchStartAddress, _dispatchEndAddress);
-        _buildBottomSheetConfirmation(currentDispatch, image);
+
+        final ResponseModel responseModel =
+            await dispatchProvider.createDispatch(dispatchType,
+                _dispatchStartAddress, _dispatchEndAddress, sessionToken);
+        if (responseModel.isSUcessfull) {
+          _buildBottomSheetConfirmation(currentDispatch, image);
+        } else {
+          Constant.showFialureDialogue(responseModel.responseMessage, context);
+        }
+
         //show Dispatch Confirmation pop Up
       },
       child: Container(
@@ -464,9 +471,11 @@ class _HompePageState extends State<HompePage> {
                       _buildListTileDialogue(
                           "Delivery Location", dispatch.dispatchDestination),
                       Divider(),
-                      _buildListTileDialogue("Total Distance", "50 KM"),
+                      _buildListTileDialogue(
+                          "Total Distance", dispatch.estimatedDistance),
                       Divider(),
-                      _buildListTileDialogue("Estimated Time", "1hr"),
+                      _buildListTileDialogue(
+                          "Estimated Time", dispatch.estimatedDIspatchDuration),
                       Divider(),
                       _buildListTileDialogue("Base Delivery Fee", "N 1000"),
                       Divider(),

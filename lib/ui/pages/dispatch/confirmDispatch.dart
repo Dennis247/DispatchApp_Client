@@ -1,12 +1,22 @@
+import 'package:dispatch_app_client/model/response.dart';
 import 'package:dispatch_app_client/provider/dispatchProvider.dart';
+import 'package:dispatch_app_client/ui/pages/dispatch/dispatchStausPage.dart';
+import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
 import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ConfirmDispatch extends StatelessWidget {
+class ConfirmDispatch extends StatefulWidget {
   static final String routeName = "confirm-dispatch";
 
+  @override
+  _ConfirmDispatchState createState() => _ConfirmDispatchState();
+}
+
+class _ConfirmDispatchState extends State<ConfirmDispatch> {
+  bool _isloading = false;
   _buildConfrimRowItem(String title, String subTitle) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -27,6 +37,8 @@ class ConfirmDispatch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appSzie = Constant.getAppSize(context);
+    final dispatchProvider =
+        Provider.of<DispatchProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -61,28 +73,57 @@ class ConfirmDispatch extends StatelessWidget {
                   _buildConfrimRowItem(
                       "Dispatch Type", currentDispatch.dispatchType),
                   Divider(),
-                  _buildConfrimRowItem("Total Distance", "50 KM"),
+                  _buildConfrimRowItem(
+                      "Total Distance", currentDispatch.estimatedDistance),
                   Divider(),
-                  _buildConfrimRowItem("Estimated Time", "1hr"),
+                  _buildConfrimRowItem("Estimated Time",
+                      currentDispatch.estimatedDIspatchDuration),
                   Divider(),
                   _buildConfrimRowItem("Base Delivery Fee", "N 1000"),
                   Divider(),
                   _buildConfrimRowItem("Total Delivery Fee", "N 5000"),
                   Divider(),
-                  _buildConfrimRowItem("Reciever Name", "Dennis Osagiede"),
+                  _buildConfrimRowItem(
+                      "Reciever Name", currentDispatch.dispatchReciever),
                   Divider(),
-                  _buildConfrimRowItem("Reciever PhoneNumber", "08167828256"),
+                  _buildConfrimRowItem("Reciever PhoneNumber",
+                      currentDispatch.dispatchRecieverPhone),
                   SizedBox(
                     height: appSzie.height * 0.05,
                   ),
                   Container(
                     alignment: Alignment.center,
-                    child: AppButtonWudget(
-                      buttonText: "CONFIRM DISPATCH",
-                      function: () {
-                        Navigator.of(context).pushNamed("/");
-                      },
-                    ),
+                    child: _isloading
+                        ? Constant.circularInidcator()
+                        : AppButtonWudget(
+                            buttonText: "CONFIRM DISPATCH",
+                            function: () async {
+                              setState(() {
+                                _isloading = true;
+                              });
+                              final ResponseModel responseModel =
+                                  await dispatchProvider
+                                      .addDispatch(currentDispatch);
+                              if (responseModel.isSUcessfull) {
+                                //show custom sucess dialogue before navigating
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                        builder: (context) => DispatchStatus(
+                                              imageUrl:
+                                                  "assets/images/express.png",
+                                              dispatchMessage: Constant
+                                                  .processDispatchMessage,
+                                              isDispatchProcessing: true,
+                                            )));
+                              } else {
+                                setState(() {
+                                  _isloading = false;
+                                });
+                                Constant.showFialureDialogue(
+                                    responseModel.responseMessage, context);
+                              }
+                            },
+                          ),
                   )
                 ],
               ),

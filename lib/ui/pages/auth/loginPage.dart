@@ -1,16 +1,15 @@
 import 'package:dispatch_app_client/model/user.dart';
 import 'package:dispatch_app_client/provider/authProvider.dart';
+import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/ui/pages/auth/signUpPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
 import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/ui/widgets/appInputWidget.dart';
 import 'package:dispatch_app_client/ui/widgets/appLogo.dart';
 import 'package:dispatch_app_client/ui/widgets/appTextWidget.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -33,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _loginUser() async {
+    dispatchList = [];
     bool isValid = _formKey.currentState.validate();
     if (!isValid) return;
     _startLoading(true);
@@ -40,7 +40,6 @@ class _LoginPageState extends State<LoginPage> {
       final response = await Provider.of<AUthProvider>(context, listen: false)
           .login(_emailController.text, _passwordController.text);
       if (response.isSUcessfull) {
-        _startLoading(false);
         Navigator.of(context).pushReplacementNamed(HompePage.routeName);
       } else {
         _startLoading(false);
@@ -101,16 +100,12 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     )),
                 SizedBox(
-                  height: appSzie.height * 0.07,
+                  height: appSzie.height * 0.05,
                 ),
                 _isLoading
                     ? Constant.circularInidcator()
                     : AppButtonWudget(
-                        buttonText: "Login",
-                        function: () {
-                          _loginUser();
-                        },
-                      ),
+                        buttonText: "Login", function: _loginUser),
                 SizedBox(
                   height: appSzie.height * 0.03,
                 ),

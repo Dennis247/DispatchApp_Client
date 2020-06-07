@@ -1,3 +1,5 @@
+import 'package:dispatch_app_client/model/dispatch.dart';
+import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/ui/pages/auth/signUpPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/confirmDispatch.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
@@ -19,6 +21,35 @@ class RecipientPage extends StatefulWidget {
 }
 
 class _RecipientPageState extends State<RecipientPage> {
+  TextEditingController _nameController = new TextEditingController();
+  TextEditingController _phoneController = new TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  _saveRecipient() {
+    bool isValid = _formKey.currentState.validate();
+    if (!isValid) return;
+    recieverName = _nameController.text;
+    recieverPhone = _phoneController.text;
+    currentDispatch = new Dispatch(
+        id: currentDispatch.id,
+        userId: currentDispatch.userId,
+        trackingNo: currentDispatch.trackingNo,
+        dispatchRiderId: currentDispatch.dispatchRiderId,
+        dispatchDate: currentDispatch.dispatchDate,
+        pickUpLocation: currentDispatch.pickUpLocation,
+        dispatchDestination: currentDispatch.dispatchDestination,
+        dispatchBaseFare: currentDispatch.dispatchBaseFare,
+        dispatchTotalFare: currentDispatch.dispatchTotalFare,
+        dispatchType: currentDispatch.dispatchType,
+        dispatchStatus: currentDispatch.dispatchStatus,
+        currentLocation: currentDispatch.currentLocation,
+        estimatedDIspatchDuration: currentDispatch.estimatedDIspatchDuration,
+        estimatedDistance: currentDispatch.estimatedDistance,
+        dispatchReciever: _nameController.text.trim(),
+        dispatchRecieverPhone: _phoneController.text.trim());
+    Navigator.of(context).pushNamed(ConfirmDispatch.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     final appSzie = Constant.getAppSize(context);
@@ -27,52 +58,60 @@ class _RecipientPageState extends State<RecipientPage> {
         body: SingleChildScrollView(
           child: Stack(
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Image.asset(
-                    'assets/images/recipient.png',
-                    scale: 1.5,
-                  ),
-                  SizedBox(
-                    height: appSzie.height * 0.04,
-                  ),
-                  Text.rich(
-                    AppTextWidget.appTextSpan("enter ", "Reciver Details"),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: appSzie.height * 0.03,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: AppTextInputWIdget(
-                      labelText: "Name",
-                      prefixIcon: FontAwesomeIcons.user,
-                      obscureText: false,
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/images/recipient.png',
+                      scale: 1.5,
                     ),
-                  ),
-                  Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15, top: 10),
+                    SizedBox(
+                      height: appSzie.height * 0.04,
+                    ),
+                    Text.rich(
+                      AppTextWidget.appTextSpan("enter ", "Reciver Details"),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: appSzie.height * 0.03,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
                       child: AppTextInputWIdget(
-                        labelText: "Phone",
-                        prefixIcon: FontAwesomeIcons.phone,
+                        labelText: "Name",
+                        prefixIcon: FontAwesomeIcons.user,
                         obscureText: false,
-                      )),
-                  SizedBox(
-                    height: appSzie.height * 0.07,
-                  ),
-                  AppButtonWudget(
-                    buttonText: "PROCEED",
-                    function: () {
-                      Navigator.of(context)
-                          .pushNamed(ConfirmDispatch.routeName);
-                    },
-                  ),
-                  SizedBox(
-                    height: appSzie.height * 0.03,
-                  ),
-                ],
+                        controller: _nameController,
+                        validator: (value) {
+                          return Constant.stringValidator(value, "Name");
+                        },
+                      ),
+                    ),
+                    Padding(
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 10),
+                        child: AppTextInputWIdget(
+                          labelText: "Phone",
+                          prefixIcon: FontAwesomeIcons.phone,
+                          obscureText: false,
+                          controller: _phoneController,
+                          validator: (value) {
+                            return Constant.stringValidator(value, "Phone");
+                          },
+                        )),
+                    SizedBox(
+                      height: appSzie.height * 0.07,
+                    ),
+                    AppButtonWudget(
+                      buttonText: "PROCEED",
+                      function: _saveRecipient,
+                    ),
+                    SizedBox(
+                      height: appSzie.height * 0.03,
+                    ),
+                  ],
+                ),
               ),
               Positioned(
                 top: 15.0,

@@ -1,3 +1,4 @@
+import 'package:dispatch_app_client/model/dispatch.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchDetails.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
@@ -6,10 +7,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class DispatchHistoryWidget extends StatelessWidget {
+  final Dispatch dispatch;
+
+  const DispatchHistoryWidget({Key key, this.dispatch}) : super(key: key);
+
   _buildRideInfo(
     String point,
     String title,
-    String subtitle,
     Color color,
   ) {
     return Row(
@@ -69,8 +73,10 @@ class DispatchHistoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => DispatchDetails()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => DispatchDetails(
+                  dispatch: dispatch,
+                )));
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 5),
@@ -87,22 +93,16 @@ class DispatchHistoryWidget extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, top: 20.0),
-                      child: _buildRideInfo(
-                          "From",
-                          "72 Evbotubu lane Benin xxxxxxxxxxxxxxxxxxxxxxx",
-                          "My Home",
-                          Colors.green),
+                      child: _buildRideInfo(Constant.pickUp,
+                          dispatch.pickUpLocation, Colors.green),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Padding(
                         padding: const EdgeInsets.only(left: 20, top: 5),
-                        child: _buildRideInfo(
-                            "To",
-                            "Ring road center mami market xxxxxxxxxx xxxxxxxxxxx",
-                            "Shopping Mall",
-                            Colors.red)),
+                        child: _buildRideInfo(Constant.deliveryAddress,
+                            dispatch.dispatchDestination, Colors.red)),
                     SizedBox(
                       height: 5,
                     ),
@@ -115,11 +115,13 @@ class DispatchHistoryWidget extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        _buildBottomInfo(Icons.account_balance, "598598498",
+                        _buildBottomInfo(
+                            Icons.phone,
+                            dispatch.dispatchRecieverPhone,
                             Constant.primaryColorDark),
                         _buildBottomInfo(
                             FontAwesomeIcons.clock,
-                            timeago.format(DateTime.now()),
+                            timeago.format(dispatch.dispatchDate),
                             Constant.primaryColorDark)
                       ],
                     ),
@@ -128,19 +130,7 @@ class DispatchHistoryWidget extends StatelessWidget {
               ],
             ),
             margin: EdgeInsets.only(left: 5, right: 5),
-            height: 165,
-            // decoration: BoxDecoration(
-            //   color: Colors.white,
-            //   borderRadius: BorderRadius.circular(10),
-            //   boxShadow: [
-            //     BoxShadow(
-            //       color: Color(0x33303030),
-            //       offset: Offset(0, 5),
-            //       blurRadius: 15,
-            //       spreadRadius: 0,
-            //     ),
-            //   ],
-            // ),
+            height: 175,
           ),
         ),
       ),

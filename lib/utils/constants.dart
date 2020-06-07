@@ -1,5 +1,6 @@
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 class Constant {
   static Size getAppSize(BuildContext context) {
@@ -65,10 +66,9 @@ class Constant {
   }
 
   static Widget circularInidcator() {
-    return Center(
-      child: CircularProgressIndicator(
-        backgroundColor: Constant.primaryColorDark,
-      ),
+    return JumpingText(
+      "Loading...",
+      style: AppTextStyles.appTextStyle,
     );
   }
 
@@ -81,6 +81,7 @@ class Constant {
   static final String dispatchPendingStatus = "penidng";
   static final String dispatchActiveStatus = "active";
   static final String dispatchCompletedStatus = "completed";
+  static final String dispatchCancelledStatus = "cancelled";
   static final String dispatchTypeEconomy = "Economy";
   static final String dispatchTypeExpress = "Express";
   static final String dispatchTypePremiun = "Premiun";
@@ -89,4 +90,8 @@ class Constant {
   static final String dispatchDestinationAddress = "22 Yaba Education Centre";
   static final String pickUp = "PickUp Address";
   static final String deliveryAddress = "Delivery Address";
+  static final String processDispatchMessage =
+      "Your Request was sucessfull, Dispatch Rider is on the way for pick up";
+  static final String cancellDispatchMessage =
+      "Your Request was sucessfull, Your Dispatch has been Cancelled";
 }

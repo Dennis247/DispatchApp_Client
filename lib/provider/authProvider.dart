@@ -53,4 +53,28 @@ class AUthProvider with ChangeNotifier {
       return ResponseModel(false, e.toString());
     }
   }
+
+  Future<ResponseModel> updateProfile(
+      String fullname, String phoneNumber) async {
+    try {
+      userRef
+          .child(loggedInUser.id)
+          .update({'fullname': fullname, 'phoneNumber': phoneNumber});
+      loggedInUser = User(loggedInUser.id, fullname, phoneNumber,
+          loggedInUser.email, loggedInUser.password);
+      return ResponseModel(true, "User Profile Updated Sucessfully");
+    } catch (e) {
+      return ResponseModel(false, e.toString());
+    }
+  }
+
+  Future<ResponseModel> updatePassword(String password) async {
+    try {
+      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+      await user.updatePassword(password);
+      return ResponseModel(true, "Password Update Sucessfull");
+    } catch (e) {
+      return ResponseModel(false, e.toString());
+    }
+  }
 }

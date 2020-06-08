@@ -1,11 +1,11 @@
-import 'package:dispatch_app_client/model/user.dart';
 import 'package:dispatch_app_client/provider/authProvider.dart';
 import 'package:dispatch_app_client/provider/dispatchProvider.dart';
+import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
 import 'package:dispatch_app_client/ui/pages/auth/signUpPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
 import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/ui/widgets/appInputWidget.dart';
-import 'package:dispatch_app_client/ui/widgets/appLogo.dart';
+
 import 'package:dispatch_app_client/ui/widgets/appTextWidget.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +29,13 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _isLoading = state;
     });
+  }
+
+  @override
+  void initState() {
+    Provider.of<NotificationProvider>(context, listen: false)
+        .initialisePushNotification();
+    super.initState();
   }
 
   void _loginUser() async {

@@ -1,5 +1,6 @@
 import 'package:dispatch_app_client/model/response.dart';
 import 'package:dispatch_app_client/provider/dispatchProvider.dart';
+import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchStausPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
 import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
@@ -39,6 +40,8 @@ class _ConfirmDispatchState extends State<ConfirmDispatch> {
     final appSzie = Constant.getAppSize(context);
     final dispatchProvider =
         Provider.of<DispatchProvider>(context, listen: false);
+    final notificationProvider =
+        Provider.of<NotificationProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -106,6 +109,9 @@ class _ConfirmDispatchState extends State<ConfirmDispatch> {
                                       .addDispatch(currentDispatch);
                               if (responseModel.isSUcessfull) {
                                 //show custom sucess dialogue before navigating
+                                notificationProvider.displayNotification(
+                                    "Dispatch Sucessfull",
+                                    "Dispatch Rider on the way for pick up!");
                                 Navigator.of(context)
                                     .pushReplacement(MaterialPageRoute(
                                         builder: (context) => DispatchStatus(
@@ -115,6 +121,8 @@ class _ConfirmDispatchState extends State<ConfirmDispatch> {
                                                   .processDispatchMessage,
                                               isDispatchProcessing: true,
                                             )));
+
+                                //show dispatch notification
                               } else {
                                 setState(() {
                                   _isloading = false;

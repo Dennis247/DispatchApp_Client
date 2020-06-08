@@ -1,6 +1,7 @@
 import 'package:dispatch_app_client/provider/authProvider.dart';
 import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/provider/googleMpaProvider.dart';
+import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
 import 'package:dispatch_app_client/ui/pages/auth/loginPage.dart';
 import 'package:dispatch_app_client/ui/pages/auth/signUpPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/confirmDispatch.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider.value(value: GoogleMapProvider()),
           ChangeNotifierProvider.value(value: DispatchProvider()),
           ChangeNotifierProvider.value(value: AUthProvider()),
+          ChangeNotifierProvider.value(value: NotificationProvider())
         ],
         child: MaterialApp(
           title: 'Dispatch App',

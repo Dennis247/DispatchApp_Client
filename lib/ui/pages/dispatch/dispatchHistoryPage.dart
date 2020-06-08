@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:dispatch_app_client/utils/constants.dart';
 
 class DispatchHistoryPage extends StatefulWidget {
   static final String routeName = "dispatch-history";
@@ -49,23 +50,23 @@ class _DispatchHistoryPageState extends State<DispatchHistoryPage> {
     final dispatchProvider =
         Provider.of<DispatchProvider>(context, listen: false);
     if (page == 0) {
-      dispatchList = dispatchProvider.getDispatchLIst(
-          Constant.dispatchActiveStatus, _currentDispatchList);
+      _currentDispatchList = dispatchProvider.getDispatchLIst(
+          Constant.dispatchActiveStatus, dispatchList);
       return Constant.dispatchActiveStatus.toUpperCase();
     }
     if (page == 1) {
-      dispatchList = dispatchProvider.getDispatchLIst(
-          Constant.dispatchPendingStatus, _currentDispatchList);
+      _currentDispatchList = dispatchProvider.getDispatchLIst(
+          Constant.dispatchPendingStatus, dispatchList);
       return Constant.dispatchPendingStatus.toUpperCase();
     }
     if (page == 2) {
-      dispatchList = dispatchProvider.getDispatchLIst(
-          Constant.dispatchCompletedStatus, _currentDispatchList);
+      _currentDispatchList = dispatchProvider.getDispatchLIst(
+          Constant.dispatchCompletedStatus, dispatchList);
       return Constant.dispatchCompletedStatus.toUpperCase();
     }
     if (page == 3) {
-      dispatchList = dispatchProvider.getDispatchLIst(
-          Constant.dispatchCancelledStatus, _currentDispatchList);
+      _currentDispatchList = dispatchProvider.getDispatchLIst(
+          Constant.dispatchCancelledStatus, dispatchList);
       return Constant.dispatchCancelledStatus.toUpperCase();
     }
     return null;
@@ -97,12 +98,31 @@ class _DispatchHistoryPageState extends State<DispatchHistoryPage> {
               width: appSize.width,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 15),
-                child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: dispatchList.length,
-                    itemBuilder: (context, index) => DispatchHistoryWidget(
-                          dispatch: dispatchList[index],
-                        )),
+                child: _currentDispatchList.length > 0
+                    ? ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: _currentDispatchList.length,
+                        itemBuilder: (context, index) => DispatchHistoryWidget(
+                              dispatch: _currentDispatchList[index],
+                            ))
+                    : Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              FontAwesomeIcons.opencart,
+                              size: 100,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "dispatch list is empty",
+                              style: AppTextStyles.appTextStyle,
+                            )
+                          ],
+                        ),
+                      ),
               ),
             ),
       bottomNavigationBar: _isLoading

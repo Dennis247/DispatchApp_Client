@@ -41,8 +41,10 @@ class AppTextStyles {
     color: Colors.red,
   );
 
-  static final appTextStyle =
-      GoogleFonts.poppins(fontSize: 14, color: Constant.primaryColorDark);
+  static final appTextStyle = GoogleFonts.poppins(
+    fontSize: 14,
+    color: Constant.primaryColorDark,
+  );
 
   static final appLightTextStyle =
       GoogleFonts.poppins(fontSize: 14, color: Constant.primaryColorLight);

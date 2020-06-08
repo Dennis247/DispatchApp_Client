@@ -1,11 +1,59 @@
+import 'package:dispatch_app_client/provider/authProvider.dart';
+import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/ui/widgets/appInputWidget.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
-class UpdatePassowrd extends StatelessWidget {
+class UpdatePassowrd extends StatefulWidget {
   static final String routeName = "update-password";
+
+  @override
+  _UpdatePassowrdState createState() => _UpdatePassowrdState();
+}
+
+class _UpdatePassowrdState extends State<UpdatePassowrd> {
+  bool _isLoading = false;
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _newwPaswordController = new TextEditingController();
+  TextEditingController _confirmPasswordController =
+      new TextEditingController();
+
+  @override
+  void dispose() {
+    _newwPaswordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  void _startLoading(bool state) {
+    setState(() {
+      _isLoading = state;
+    });
+  }
+
+  void _updatePassword() async {
+    bool isValid = _formKey.currentState.validate();
+    if (!isValid) return;
+    _startLoading(true);
+    try {
+      final response = await Provider.of<AUthProvider>(context, listen: false)
+          .updatePassword(_confirmPasswordController.text);
+      if (response.isSUcessfull) {
+        _startLoading(false);
+        Constant.showSuccessDialogue(response.responseMessage, context);
+      } else {
+        _startLoading(false);
+        Constant.showFialureDialogue(response.responseMessage, context);
+      }
+    } catch (e) {
+      _startLoading(false);
+      Constant.showFialureDialogue(e.toString(), context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final appSize = Constant.getAppSize(context);
@@ -17,14 +65,6 @@ class UpdatePassowrd extends StatelessWidget {
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.save,
-                size: 30,
-              ),
-              onPressed: () {})
-        ],
         leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
@@ -36,45 +76,75 @@ class UpdatePassowrd extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5),
         child: Card(
-          child: ListView(
-            children: <Widget>[
-              Icon(
-                FontAwesomeIcons.lock,
-                size: 150,
-                color: Constant.primaryColorDark,
-              ),
-              SizedBox(
-                height: appSize.height * 0.03,
-              ),
-              Text(
-                "password",
-                textAlign: TextAlign.center,
-                style: AppTextStyles.smallprimaryColorTextStyle,
-              ),
-              SizedBox(
-                height: appSize.height * 0.03,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  children: <Widget>[
-                    AppTextInputWIdget(
-                      labelText: "New Password",
-                      prefixIcon: Icons.lock_outline,
-                      obscureText: true,
-                    ),
-                    SizedBox(
-                      height: appSize.height * 0.02,
-                    ),
-                    AppTextInputWIdget(
-                      labelText: "Confrim Password",
-                      prefixIcon: Icons.lock_outline,
-                      obscureText: true,
-                    ),
-                  ],
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: <Widget>[
+                Icon(
+                  FontAwesomeIcons.lock,
+                  size: 150,
+                  color: Constant.primaryColorDark,
                 ),
-              )
-            ],
+                SizedBox(
+                  height: appSize.height * 0.03,
+                ),
+                Text(
+                  "password",
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.smallprimaryColorTextStyle,
+                ),
+                SizedBox(
+                  height: appSize.height * 0.03,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: <Widget>[
+                      AppTextInputWIdget(
+                        labelText: "New Password",
+                        prefixIcon: Icons.lock_outline,
+                        obscureText: true,
+                        controller: _newwPaswordController,
+                        validator: (value) {
+                          if (_newwPaswordController.text !=
+                              _confirmPasswordController.text) {
+                            return "Password must be same as Confirm Password";
+                          }
+                          return Constant.stringValidator(
+                              value, "new password");
+                        },
+                      ),
+                      SizedBox(
+                        height: appSize.height * 0.02,
+                      ),
+                      AppTextInputWIdget(
+                        labelText: "Confrim Password",
+                        prefixIcon: Icons.lock_outline,
+                        obscureText: true,
+                        controller: _confirmPasswordController,
+                        validator: (value) {
+                          if (_newwPaswordController.text !=
+                              _confirmPasswordController.text) {
+                            return "Password must be same as Confirm Password";
+                          }
+                          return Constant.stringValidator(
+                              value, "confirm password");
+                        },
+                      ),
+                      SizedBox(
+                        height: appSize.height * 0.08,
+                      ),
+                      _isLoading
+                          ? Constant.circularInidcator()
+                          : AppButtonWudget(
+                              buttonText: "SAVE",
+                              function: _updatePassword,
+                            )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

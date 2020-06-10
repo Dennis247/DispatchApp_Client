@@ -1,6 +1,7 @@
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_indicators/progress_indicators.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class Constant {
   static Size getAppSize(BuildContext context) {
@@ -16,54 +17,112 @@ class Constant {
   }
 
   static showFialureDialogue(String message, BuildContext context) async {
-    await showDialog(
+    AwesomeDialog(
         context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            title: Text(
-              "Something went wrong",
-              style: AppTextStyles.appTextStyle,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.TOPSLIDE,
+        headerAnimationLoop: false,
+        //   title: 'Error',
+        body: Column(
+          children: <Widget>[
+            Text(
+              "Error",
+              style: AppTextStyles.appDarkHeaderTextStyle,
             ),
-            content: Text(
+            Text(
               message,
-              style: AppTextStyles.redlabelTextStyle,
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
+              textAlign: TextAlign.center,
+              style: AppTextStyles.appTextStyle,
+            )
+          ],
+        ),
+        //  desc: message,
+        btnOkOnPress: () {
+          //  Navigator.of(context).pop();
+        },
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Constant.primaryColorDark)
+      ..show();
   }
 
   static showSuccessDialogue(String message, BuildContext context) async {
-    await showDialog(
+    AwesomeDialog(
         context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            title: Text(
-              "Operation Sucessfull",
-              style: AppTextStyles.appTextStyle,
+        dialogType: DialogType.SUCCES,
+        animType: AnimType.TOPSLIDE,
+        headerAnimationLoop: false,
+        // title: 'Error',
+        body: Column(
+          children: <Widget>[
+            Text(
+              "Sucess",
+              style: AppTextStyles.appDarkHeaderTextStyle,
             ),
-            content: Text(
+            Text(
               message,
-              style: AppTextStyles.greenlabelTextStyle,
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
+              textAlign: TextAlign.center,
+              style: AppTextStyles.appTextStyle,
+            )
+          ],
+        ),
+        //  desc: message,
+        btnOkOnPress: () {
+          //  Navigator.of(context).pop();
+        },
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Constant.primaryColorDark)
+      ..show();
   }
+
+  // static showFialureDialogue(String message, BuildContext context) async {
+  //   await showDialog(
+  //       context: context,
+  //       builder: (ctx) {
+  //         return AlertDialog(
+  //           title: Text(
+  //             "Something went wrong",
+  //             style: AppTextStyles.appTextStyle,
+  //           ),
+  //           content: Text(
+  //             message,
+  //             style: AppTextStyles.redlabelTextStyle,
+  //           ),
+  //           actions: <Widget>[
+  //             FlatButton(
+  //               child: Text("OK"),
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //             )
+  //           ],
+  //         );
+  //       });
+  // }
+
+  // static showSuccessDialogue(String message, BuildContext context) async {
+  //   await showDialog(
+  //       context: context,
+  //       builder: (ctx) {
+  //         return AlertDialog(
+  //           title: Text(
+  //             "Operation Sucessfull",
+  //             style: AppTextStyles.appTextStyle,
+  //           ),
+  //           content: Text(
+  //             message,
+  //             style: AppTextStyles.greenlabelTextStyle,
+  //           ),
+  //           actions: <Widget>[
+  //             FlatButton(
+  //               child: Text("OK"),
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //             )
+  //           ],
+  //         );
+  //       });
+  // }
 
   static Widget circularInidcator() {
     return JumpingText(
@@ -94,4 +153,7 @@ class Constant {
       "Your Request was sucessfull, Dispatch Rider is on the way for pick up";
   static final String cancellDispatchMessage =
       "Your Request was sucessfull, Your Dispatch has been Cancelled";
+  static final String autoLogOnData = "auto log data";
+  static final String onBoardingData = "on boarding data";
+  static final String hiveData = "hive data";
 }

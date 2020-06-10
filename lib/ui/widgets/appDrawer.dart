@@ -57,8 +57,8 @@ class AppDrawer extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Share.share(
-                      "https://github.com/Dennis247/green_taxi",
-                      subject: "Invite Your Friend To Green Taxi",
+                      "https://github.com/Dennis247/DispatchApp_Client",
+                      subject: "Invite Your Friend To Dispatch App",
                     );
                   },
                   child: Text(
@@ -71,6 +71,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
+                    Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(SettingsPage.routeName);
                   },
                   child: Text(
@@ -83,6 +84,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
+                    Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(SupportPage.routeName);
                   },
                   child: Text(

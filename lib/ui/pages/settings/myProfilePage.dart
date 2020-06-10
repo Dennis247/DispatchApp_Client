@@ -1,3 +1,4 @@
+import 'package:dispatch_app_client/model/user.dart';
 import 'package:dispatch_app_client/provider/authProvider.dart';
 import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/ui/widgets/appInputWidget.dart';
@@ -47,6 +48,15 @@ class _MyProfilePageState extends State<MyProfilePage> {
     try {
       final response = await Provider.of<AUthProvider>(context, listen: false)
           .updateProfile(_fullnameController.text, _phonenumberController.text);
+      //update shared preference
+      loggedInUser = User(
+          loggedInUser.id,
+          _fullnameController.text,
+          _phonenumberController.text,
+          loggedInUser.email,
+          loggedInUser.password);
+      Provider.of<AUthProvider>(context, listen: false)
+          .storeAutoData(loggedInUser);
       if (response.isSUcessfull) {
         _startLoading(false);
         Constant.showSuccessDialogue(response.responseMessage, context);

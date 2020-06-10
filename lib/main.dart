@@ -15,6 +15,7 @@ import 'package:dispatch_app_client/ui/pages/support/supportPage.dart';
 import 'package:dispatch_app_client/ui/pages/settings/settingsPage.dart';
 import 'package:dispatch_app_client/ui/pages/settings/addCreditCardPage.dart';
 import 'ui/pages/dispatch/dispatchHistoryPage.dart';
+import 'ui/pages/onBoarding/OnBoardingPage.dart';
 import 'ui/pages/settings/myProfilePage.dart';
 import 'ui/pages/settings/updatePasswordPage.dart';
 import 'utils/customRoute.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
             AddCreditCardPage.routeName: (context) => AddCreditCardPage(),
             MyProfilePage.routeName: (context) => MyProfilePage(),
             UpdatePassowrd.routeName: (context) => UpdatePassowrd(),
+            OnBoardingPage.routeName: (context) => OnBoardingPage()
           },
         ));
   }

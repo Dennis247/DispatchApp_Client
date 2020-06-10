@@ -46,6 +46,11 @@ class AppTextStyles {
     color: Constant.primaryColorDark,
   );
 
+  static final onBoardingNavigator = GoogleFonts.poppins(
+      fontSize: 14,
+      color: Constant.primaryColorDark,
+      fontWeight: FontWeight.w600);
+
   static final appLightTextStyle =
       GoogleFonts.poppins(fontSize: 14, color: Constant.primaryColorLight);
 

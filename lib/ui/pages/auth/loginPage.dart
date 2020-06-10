@@ -3,6 +3,7 @@ import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
 import 'package:dispatch_app_client/ui/pages/auth/signUpPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
+import 'package:dispatch_app_client/ui/pages/onBoarding/OnBoardingPage.dart';
 import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/ui/widgets/appInputWidget.dart';
 
@@ -35,7 +36,18 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     Provider.of<NotificationProvider>(context, listen: false)
         .initialisePushNotification();
+
+    //check onBoardingData
+    _tryAutoLogin();
     super.initState();
+  }
+
+  void _tryAutoLogin() async {
+    bool canAutoLogin =
+        await Provider.of<AUthProvider>(context, listen: false).tryAutoLogin();
+    if (canAutoLogin) {
+      Navigator.of(context).pushReplacementNamed(HompePage.routeName);
+    }
   }
 
   void _loginUser() async {

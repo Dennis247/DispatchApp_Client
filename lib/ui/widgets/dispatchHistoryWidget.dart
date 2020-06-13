@@ -8,7 +8,6 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class DispatchHistoryWidget extends StatelessWidget {
   final Dispatch dispatch;
-
   const DispatchHistoryWidget({Key key, this.dispatch}) : super(key: key);
 
   _buildRideInfo(

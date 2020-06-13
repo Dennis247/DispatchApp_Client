@@ -43,7 +43,8 @@ class _SignUpPageState extends State<SignUpPage> {
           _fullNameController.text.trim(),
           _phoneNumberController.text.trim(),
           _emailController.text.trim(),
-          _passwordController.text.trim());
+          _passwordController.text.trim(),
+          Constant.userTypeUser);
       final response =
           await Provider.of<AUthProvider>(context, listen: false).signUp(user);
       if (response.isSUcessfull) {
@@ -102,6 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: _phoneNumberController,
                       prefixIcon: FontAwesomeIcons.phone,
                       obscureText: false,
+                      keyboardType: TextInputType.number,
                       validator: (value) {
                         return Constant.stringValidator(value, "phone number");
                       },

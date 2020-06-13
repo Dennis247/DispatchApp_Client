@@ -2,10 +2,8 @@ import 'package:dispatch_app_client/provider/authProvider.dart';
 import 'package:dispatch_app_client/ui/pages/auth/loginPage.dart';
 import 'package:dispatch_app_client/ui/widgets/appTextWidget.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -27,9 +25,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   void _checkOnBoarding() async {
     bool isOnBoarded = await Provider.of<AUthProvider>(context, listen: false)
         .isUserOnBoarded();
-    if (!isOnBoarded) {
-      Navigator.of(context).pushReplacementNamed(OnBoardingPage.routeName);
-      return;
+    if (isOnBoarded) {
+      Navigator.of(context).pushReplacementNamed(LoginPage.routeName);
     }
   }
 
@@ -106,10 +103,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       showSkipButton: true,
       skipFlex: 0,
       nextFlex: 0,
-      skip: Text('Skip', style: AppTextStyles.onBoardingNavigator),
+      skip: const Text('Skip'),
       next: const Icon(Icons.arrow_forward_ios),
-      done: Text('Done', style: AppTextStyles.onBoardingNavigator),
-
+      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
       dotsDecorator: const DotsDecorator(
         activeColor: Color(0xff0d1724),
         size: Size(10.0, 10.0),

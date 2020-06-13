@@ -54,7 +54,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
           _fullnameController.text,
           _phonenumberController.text,
           loggedInUser.email,
-          loggedInUser.password);
+          loggedInUser.password,
+          loggedInUser.userType);
       Provider.of<AUthProvider>(context, listen: false)
           .storeAutoData(loggedInUser);
       if (response.isSUcessfull) {
@@ -121,6 +122,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                         prefixIcon: FontAwesomeIcons.user,
                         obscureText: false,
                         controller: _fullnameController,
+                        keyboardType: TextInputType.text,
                         validator: (value) {
                           return Constant.stringValidator(value, "full name");
                         },
@@ -133,6 +135,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                         prefixIcon: FontAwesomeIcons.phone,
                         obscureText: false,
                         controller: _phonenumberController,
+                        keyboardType: TextInputType.number,
                         validator: (value) {
                           return Constant.stringValidator(
                               value, "phone number");

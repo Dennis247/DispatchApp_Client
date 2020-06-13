@@ -156,4 +156,6 @@ class Constant {
   static final String autoLogOnData = "auto log data";
   static final String onBoardingData = "on boarding data";
   static final String hiveData = "hive data";
+  static final String userTypeUser = "user";
+  static final String userTypeDriver = "driver";
 }

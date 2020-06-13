@@ -25,7 +25,10 @@ class DispatchProvider with ChangeNotifier {
     List<Dispatch> alldispatch = [];
     try {
       dispatchList.clear();
-      await dispatchRef.once().then((DataSnapshot dataSnapshot) {
+      await dispatchRef
+          .orderByChild("dispatchDate")
+          .once()
+          .then((DataSnapshot dataSnapshot) {
         Map<dynamic, dynamic> dbDispatchLIst = dataSnapshot.value;
         dbDispatchLIst.forEach((key, value) {
           final dispatch = Dispatch(
@@ -49,8 +52,10 @@ class DispatchProvider with ChangeNotifier {
               dispatchRecieverPhone: value['dispatchRecieverPhone']);
           alldispatch.add(dispatch);
         });
+        alldispatch =
+            alldispatch.where((d) => d.userId == loggedInUser.id).toList();
       });
-      dispatchList = alldispatch;
+      dispatchList = alldispatch.reversed.toList();
       return ResponseModel(true, "Disatch list gotten sucessfully");
     } catch (e) {
       return ResponseModel(false, e.toString());

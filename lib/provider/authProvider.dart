@@ -20,11 +20,13 @@ class AUthProvider with ChangeNotifier {
           email: email, password: password);
       final dataSnapShot = await userRef.child(authResult.user.uid).once();
       loggedInUser = User(
-          dataSnapShot.value['id'],
-          dataSnapShot.value['fullname'],
-          dataSnapShot.value['phoneNumber'],
-          dataSnapShot.value['email'],
-          password);
+        dataSnapShot.value['id'],
+        dataSnapShot.value['fullname'],
+        dataSnapShot.value['phoneNumber'],
+        dataSnapShot.value['email'],
+        password,
+        dataSnapShot.value['userType'],
+      );
       storeAutoData(loggedInUser);
       storeAppOnBoardingData(loggedInUser.id);
       return ResponseModel(true, "User SignIn Sucessfull");
@@ -41,12 +43,13 @@ class AUthProvider with ChangeNotifier {
         "id": authResult.user.uid,
         "email": user.email,
         "fullname": user.fullName,
-        "phoneNumber": user.phoneNumber
+        "phoneNumber": user.phoneNumber,
+        "userType": user.userType
       });
       loggedInUser = new User(authResult.user.uid, user.fullName, user.fullName,
-          user.email, user.password);
+          user.email, user.password, user.userType);
       final autoLoggedUser = User(authResult.user.uid, user.email,
-          user.fullName, user.phoneNumber, user.password);
+          user.fullName, user.phoneNumber, user.password, user.userType);
       storeAutoData(autoLoggedUser);
       storeAppOnBoardingData(loggedInUser.id);
       return ResponseModel(true, "User SignUp Sucessfull");
@@ -73,7 +76,7 @@ class AUthProvider with ChangeNotifier {
           .child(loggedInUser.id)
           .update({'fullname': fullname, 'phoneNumber': phoneNumber});
       loggedInUser = User(loggedInUser.id, fullname, phoneNumber,
-          loggedInUser.email, loggedInUser.password);
+          loggedInUser.email, loggedInUser.password, loggedInUser.userType);
       return ResponseModel(true, "User Profile Updated Sucessfully");
     } catch (e) {
       return ResponseModel(false, e.toString());
@@ -122,8 +125,13 @@ class AUthProvider with ChangeNotifier {
     }
     final sharedData = sharedPref.getString(Constant.autoLogOnData);
     final logOnData = json.decode(sharedData) as Map<String, Object>;
-    loggedInUser = new User(logOnData['id'], logOnData['fullName'],
-        logOnData['phoneNumber'], logOnData['email'], logOnData['password']);
+    loggedInUser = new User(
+        logOnData['id'],
+        logOnData['fullName'],
+        logOnData['phoneNumber'],
+        logOnData['email'],
+        logOnData['password'],
+        logOnData['userType']);
     isLoggedIn = true;
     return true;
   }

@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
                 TargetPlatform.iOS: CustomPageTransitionBuilder(),
                 TargetPlatform.android: CustomPageTransitionBuilder(),
               })),
-          home: LoginPage(),
+          home: OnBoardingPage(),
           routes: {
             LoginPage.routeName: (context) => LoginPage(),
             SignUpPage.routeName: (context) => SignUpPage(),

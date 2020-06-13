@@ -1,4 +1,5 @@
 import 'package:dispatch_app_client/provider/authProvider.dart';
+import 'package:dispatch_app_client/ui/pages/auth/loginPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchHistoryPage.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
@@ -97,7 +98,8 @@ class AppDrawer extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/');
+                    Navigator.of(context)
+                        .pushReplacementNamed(LoginPage.routeName);
                     authProvider.logOut();
                   },
                   child: Text("Log Out",

@@ -4,8 +4,10 @@ class User {
   final String phoneNumber;
   final String email;
   final String password;
+  final String userType;
 
-  User(this.id, this.fullName, this.phoneNumber, this.email, this.password);
+  User(this.id, this.fullName, this.phoneNumber, this.email, this.password,
+      this.userType);
 
   static List<User> usertListFromJson(List collection) {
     List<User> userlist =
@@ -18,5 +20,6 @@ class User {
         fullName = json['fullName'],
         phoneNumber = json['phoneNumber'],
         email = json['email'],
+        userType = json['userType'],
         password = '*************';
 }

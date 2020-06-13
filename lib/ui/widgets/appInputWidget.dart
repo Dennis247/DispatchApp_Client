@@ -8,6 +8,7 @@ class AppTextInputWIdget extends StatelessWidget {
   final bool obscureText;
   final TextEditingController controller;
   final Function validator;
+  final TextInputType keyboardType;
 
   const AppTextInputWIdget(
       {Key key,
@@ -15,7 +16,8 @@ class AppTextInputWIdget extends StatelessWidget {
       this.prefixIcon,
       this.obscureText,
       this.controller,
-      this.validator})
+      this.validator,
+      this.keyboardType})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class AppTextInputWIdget extends StatelessWidget {
       style: AppTextStyles.appTextStyle,
       controller: controller,
       validator: validator,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
           labelText: labelText,
           labelStyle: AppTextStyles.labelTextStyle,

@@ -93,6 +93,13 @@ class _DispatchDetailsState extends State<DispatchDetails> {
     return true;
   }
 
+  _showCurrentLocation() {
+    if (widget.dispatch.dispatchStatus == Constant.dispatchCompletedStatus ||
+        widget.dispatch.dispatchStatus == Constant.dispatchCancelledStatus)
+      return false;
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final appSzie = Constant.getAppSize(context);
@@ -161,15 +168,17 @@ class _DispatchDetailsState extends State<DispatchDetails> {
                                 response.responseMessage, context);
                           }
                         }),
-                  Divider(),
-                  _buildRowDetails2(
-                      "current location",
-                      widget.dispatch.currentLocation,
-                      FontAwesomeIcons.mapPin,
-                      "Map", () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => DispatchLocation()));
-                  }),
+                  _showCurrentLocation() ? Divider() : SizedBox(),
+                  _showCurrentLocation()
+                      ? _buildRowDetails2(
+                          "current location",
+                          widget.dispatch.currentLocation,
+                          FontAwesomeIcons.mapPin,
+                          "Map", () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => DispatchLocation()));
+                        })
+                      : SizedBox(),
                   Divider(),
                   _buildRowDetails("Base Delivery Fee",
                       widget.dispatch.dispatchBaseFare.toString()),

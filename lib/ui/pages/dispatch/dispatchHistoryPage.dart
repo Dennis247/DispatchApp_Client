@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
 
 class DispatchHistoryPage extends StatefulWidget {
   static final String routeName = "dispatch-history";

@@ -1,6 +1,7 @@
 import 'package:dispatch_app_client/provider/authProvider.dart';
 import 'package:dispatch_app_client/ui/pages/auth/loginPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchHistoryPage.dart';
+import 'package:dispatch_app_client/ui/pages/notification/notificationPage.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,33 @@ class AppDrawer extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(NotificationPage.routeName);
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        "Notifications",
+                        style: AppTextStyles.appDarkHeaderTextStyle,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Chip(
+                          backgroundColor: Colors.green,
+                          label: Text(
+                            "2",
+                            style: AppTextStyles.appboldWhiteTextStyle,
+                          ))
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 GestureDetector(
                   onTap: () {

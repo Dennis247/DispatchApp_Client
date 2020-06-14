@@ -1,18 +1,15 @@
 import 'dart:async';
 
-import 'package:dispatch_app_client/model/dispatch.dart';
 import 'package:dispatch_app_client/model/placeDetail.dart';
-import 'package:dispatch_app_client/provider/dispatchProvider.dart';
+
 import 'package:dispatch_app_client/provider/googleMpaProvider.dart';
-import 'package:dispatch_app_client/ui/pages/dispatch/recipientPage.dart';
-import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
+
 import 'package:dispatch_app_client/ui/widgets/appDrawer.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';

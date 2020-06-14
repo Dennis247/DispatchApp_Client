@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:dispatch_app_client/model/PlaceDistanceTime.dart';
 import 'package:dispatch_app_client/model/dispatch.dart';
+import 'package:dispatch_app_client/model/notification.dart';
 import 'package:dispatch_app_client/model/response.dart';
 import 'package:dispatch_app_client/provider/authProvider.dart';
+import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,6 +29,7 @@ class DispatchProvider with ChangeNotifier {
       dispatchList.clear();
       await dispatchRef
           .orderByChild("dispatchDate")
+          .equalTo(loggedInUser.id)
           .once()
           .then((DataSnapshot dataSnapshot) {
         Map<dynamic, dynamic> dbDispatchLIst = dataSnapshot.value;
@@ -52,8 +55,6 @@ class DispatchProvider with ChangeNotifier {
               dispatchRecieverPhone: value['dispatchRecieverPhone']);
           alldispatch.add(dispatch);
         });
-        alldispatch =
-            alldispatch.where((d) => d.userId == loggedInUser.id).toList();
       });
       dispatchList = alldispatch.reversed.toList();
       return ResponseModel(true, "Disatch list gotten sucessfully");
@@ -92,6 +93,7 @@ class DispatchProvider with ChangeNotifier {
   }
 
   Future<ResponseModel> addDispatch(Dispatch dispatch) async {
+    dispatchList = dispatchList == null ? [] : dispatchList;
     try {
       await dispatchRef.child(dispatch.id).set({
         "id": dispatch.id,
@@ -112,9 +114,10 @@ class DispatchProvider with ChangeNotifier {
         "dispatchRecieverPhone": dispatch.dispatchRecieverPhone
       });
       dispatchList.add(dispatch);
+      await createPendingDispatchNotification(dispatch);
       return ResponseModel(true, "Dispatch Created Sucessfully");
     } catch (e) {
-      return ResponseModel(true, e.toString());
+      return ResponseModel(false, e.toString());
     }
   }
 
@@ -143,7 +146,7 @@ class DispatchProvider with ChangeNotifier {
       currentDispatch = dispatch;
       return ResponseModel(true, "dispatch created sucessfully");
     } catch (e) {
-      return ResponseModel(true, e.toString());
+      return ResponseModel(false, e.toString());
     }
   }
 
@@ -180,6 +183,37 @@ class DispatchProvider with ChangeNotifier {
       return ResponseModel(true, "Dispatch Staus Updated Sucessfully");
     } catch (e) {
       return ResponseModel(false, e.toString());
+    }
+  }
+
+  Future<void> createPendingDispatchNotification(Dispatch dispatch) async {
+    try {
+      final DispatchNotification dispatchNotification =
+          new DispatchNotification(
+              id: uuid.v4(),
+              message:
+                  Constant.pendingDispatchMessage + dispatch.pickUpLocation,
+              dispatchId: dispatch.id,
+              userId: dispatch.userId,
+              notificationType: Constant.pendingDispatchNotification,
+              pickUp: dispatch.pickUpLocation,
+              notificationDate: DateTime.now(),
+              recipientPhone: dispatch.dispatchRecieverPhone,
+              isNotificationSent: false);
+
+      await notificationRef.child(dispatchNotification.id).set({
+        "id": dispatchNotification.id,
+        "message": dispatchNotification.message,
+        "dispatchId": dispatchNotification.dispatchId,
+        "userId": dispatchNotification.userId,
+        "notificationType": dispatchNotification.notificationType,
+        "pickUp": dispatchNotification.pickUp,
+        "recipientPhone": dispatchNotification.recipientPhone,
+        "isNotificationSent": dispatchNotification.isNotificationSent,
+        "notificationDate": dispatchNotification.notificationDate.toString(),
+      });
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

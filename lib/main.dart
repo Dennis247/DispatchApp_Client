@@ -7,6 +7,7 @@ import 'package:dispatch_app_client/ui/pages/auth/signUpPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/confirmDispatch.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/recipientPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
+import 'package:dispatch_app_client/ui/pages/notification/notificationPage.dart';
 import 'package:dispatch_app_client/ui/pages/settings/creditCardPage.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,8 @@ class MyApp extends StatelessWidget {
             AddCreditCardPage.routeName: (context) => AddCreditCardPage(),
             MyProfilePage.routeName: (context) => MyProfilePage(),
             UpdatePassowrd.routeName: (context) => UpdatePassowrd(),
-            OnBoardingPage.routeName: (context) => OnBoardingPage()
+            OnBoardingPage.routeName: (context) => OnBoardingPage(),
+            NotificationPage.routeName: (context) => NotificationPage()
           },
         ));
   }

@@ -9,6 +9,7 @@ import 'package:dispatch_app_client/ui/pages/dispatch/recipientPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
 import 'package:dispatch_app_client/ui/pages/notification/notificationPage.dart';
 import 'package:dispatch_app_client/ui/pages/settings/creditCardPage.dart';
+import 'package:dispatch_app_client/ui/widgets/splashWidget.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,31 +37,49 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider.value(value: AUthProvider()),
           ChangeNotifierProvider.value(value: NotificationProvider())
         ],
-        child: MaterialApp(
-          title: 'Dispatch App',
-          theme: ThemeData(
-              primaryColor: Constant.primaryColorDark,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              pageTransitionsTheme: PageTransitionsTheme(builders: {
-                TargetPlatform.iOS: CustomPageTransitionBuilder(),
-                TargetPlatform.android: CustomPageTransitionBuilder(),
-              })),
-          home: OnBoardingPage(),
-          routes: {
-            LoginPage.routeName: (context) => LoginPage(),
-            SignUpPage.routeName: (context) => SignUpPage(),
-            HompePage.routeName: (context) => HompePage(),
-            RecipientPage.routeName: (context) => RecipientPage(),
-            ConfirmDispatch.routeName: (context) => ConfirmDispatch(),
-            DispatchHistoryPage.routeName: (context) => DispatchHistoryPage(),
-            SupportPage.routeName: (context) => SupportPage(),
-            SettingsPage.routeName: (context) => SettingsPage(),
-            CreditCardPage.routeName: (context) => CreditCardPage(),
-            AddCreditCardPage.routeName: (context) => AddCreditCardPage(),
-            MyProfilePage.routeName: (context) => MyProfilePage(),
-            UpdatePassowrd.routeName: (context) => UpdatePassowrd(),
-            OnBoardingPage.routeName: (context) => OnBoardingPage(),
-            NotificationPage.routeName: (context) => NotificationPage()
+        child: Consumer<AUthProvider>(
+          builder: (context, authData, _) {
+            return MaterialApp(
+              title: 'Dispatch App Rider',
+              theme: ThemeData(
+                  primaryColor: Constant.primaryColorDark,
+                  visualDensity: VisualDensity.adaptivePlatformDensity,
+                  pageTransitionsTheme: PageTransitionsTheme(builders: {
+                    TargetPlatform.iOS: CustomPageTransitionBuilder(),
+                    TargetPlatform.android: CustomPageTransitionBuilder(),
+                  })),
+              home: authData.isLoggedIn
+                  ? HompePage()
+                  : FutureBuilder(
+                      future: authData.tryAutoLogin(),
+                      builder: (context, authDataResultSnapSHot) =>
+                          authDataResultSnapSHot.connectionState ==
+                                  ConnectionState.waiting
+                              ? Center(
+                                  child: SplashWidget(),
+                                )
+                              : authData.hasOnboarded
+                                  ? LoginPage()
+                                  : OnBoardingPage(),
+                    ),
+              routes: {
+                LoginPage.routeName: (context) => LoginPage(),
+                SignUpPage.routeName: (context) => SignUpPage(),
+                HompePage.routeName: (context) => HompePage(),
+                RecipientPage.routeName: (context) => RecipientPage(),
+                ConfirmDispatch.routeName: (context) => ConfirmDispatch(),
+                DispatchHistoryPage.routeName: (context) =>
+                    DispatchHistoryPage(),
+                SupportPage.routeName: (context) => SupportPage(),
+                SettingsPage.routeName: (context) => SettingsPage(),
+                CreditCardPage.routeName: (context) => CreditCardPage(),
+                AddCreditCardPage.routeName: (context) => AddCreditCardPage(),
+                MyProfilePage.routeName: (context) => MyProfilePage(),
+                UpdatePassowrd.routeName: (context) => UpdatePassowrd(),
+                OnBoardingPage.routeName: (context) => OnBoardingPage(),
+                NotificationPage.routeName: (context) => NotificationPage()
+              },
+            );
           },
         ));
   }

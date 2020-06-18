@@ -17,24 +17,27 @@ class Dispatch {
   final String estimatedDistance;
   final String dispatchReciever;
   final String dispatchRecieverPhone;
+  final String dispatchDescription;
 
-  Dispatch(
-      {@required this.id,
-      @required this.userId,
-      @required this.trackingNo,
-      @required this.dispatchRiderId,
-      @required this.dispatchDate,
-      @required this.pickUpLocation,
-      @required this.dispatchDestination,
-      @required this.dispatchBaseFare,
-      @required this.dispatchTotalFare,
-      @required this.dispatchType,
-      @required this.dispatchStatus,
-      @required this.currentLocation,
-      @required this.estimatedDIspatchDuration,
-      @required this.estimatedDistance,
-      @required this.dispatchReciever,
-      @required this.dispatchRecieverPhone});
+  Dispatch({
+    @required this.id,
+    @required this.userId,
+    @required this.trackingNo,
+    @required this.dispatchRiderId,
+    @required this.dispatchDate,
+    @required this.pickUpLocation,
+    @required this.dispatchDestination,
+    @required this.dispatchBaseFare,
+    @required this.dispatchTotalFare,
+    @required this.dispatchType,
+    @required this.dispatchStatus,
+    @required this.currentLocation,
+    @required this.estimatedDIspatchDuration,
+    @required this.estimatedDistance,
+    @required this.dispatchReciever,
+    @required this.dispatchRecieverPhone,
+    @required this.dispatchDescription,
+  });
 
   static List<Dispatch> dispatchtListFromJson(List collection) {
     List<Dispatch> dispatchlist =
@@ -58,5 +61,6 @@ class Dispatch {
         estimatedDIspatchDuration = json['estimatedDIspatchDuration'],
         estimatedDistance = json['estimatedDistance'],
         dispatchReciever = json['dispatchReciever'],
+        dispatchDescription = json['dispatchDescription'],
         dispatchRecieverPhone = json['dispatchRecieverPhone'];
 }

@@ -10,6 +10,7 @@ class DispatchNotification {
   final DateTime notificationDate;
   final String recipientPhone;
   final bool isNotificationSent;
+  final bool isUserNotification;
 
   DispatchNotification(
       {@required this.id,
@@ -20,6 +21,7 @@ class DispatchNotification {
       @required this.pickUp,
       @required this.recipientPhone,
       @required this.isNotificationSent,
+      @required this.isUserNotification,
       @required this.notificationDate});
 
   static List<DispatchNotification> nottificationtListFromJson(
@@ -38,5 +40,6 @@ class DispatchNotification {
         pickUp = json['pickUp'],
         recipientPhone = json['recipientPhone'],
         isNotificationSent = json['isNotificationSent'],
+        isUserNotification = json['isUserNotification'],
         notificationDate = json['notificationDate'];
 }

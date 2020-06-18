@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 User loggedInUser;
+final userRef = FirebaseDatabase.instance.reference().child('users');
 
 class AUthProvider with ChangeNotifier {
-  final userRef = FirebaseDatabase.instance.reference().child('users');
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   bool isLoggedIn = false;
   bool hasOnboarded = false;

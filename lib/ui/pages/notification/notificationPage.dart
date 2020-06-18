@@ -1,3 +1,4 @@
+import 'package:dispatch_app_client/provider/authProvider.dart';
 import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
 import 'package:dispatch_app_client/ui/widgets/notificationWidget.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';

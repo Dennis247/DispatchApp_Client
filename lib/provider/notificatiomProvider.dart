@@ -2,6 +2,7 @@ import 'package:dispatch_app_client/model/notification.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:dispatch_app_client/provider/authProvider.dart';
 
 final notificationRef =
     FirebaseDatabase.instance.reference().child('notification');
@@ -54,11 +55,16 @@ class NotificationProvider with ChangeNotifier {
             notificationType: value['notificationType'],
             pickUp: value['pickUp'],
             recipientPhone: value['recipientPhone'],
+            isUserNotification: value['isUserNotification'],
             notificationDate: DateTime.parse(value['notificationDate']),
             isNotificationSent: value['isNotificationSent']);
         allNotification.add(notification);
       });
-      return allNotification.reversed.toList();
+      allNotification =
+          allNotification.where((e) => e.userId == loggedInUser.id).toList();
+      allNotification
+          .sort((b, a) => a.notificationDate.compareTo(b.notificationDate));
+      return allNotification;
     }
     return List<DispatchNotification>();
   }

@@ -23,6 +23,8 @@ class RecipientPage extends StatefulWidget {
 class _RecipientPageState extends State<RecipientPage> {
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _phoneController = new TextEditingController();
+  TextEditingController _packageDescriptionController =
+      new TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   _saveRecipient() {
@@ -46,7 +48,9 @@ class _RecipientPageState extends State<RecipientPage> {
         estimatedDIspatchDuration: currentDispatch.estimatedDIspatchDuration,
         estimatedDistance: currentDispatch.estimatedDistance,
         dispatchReciever: _nameController.text.trim(),
-        dispatchRecieverPhone: _phoneController.text.trim());
+        dispatchRecieverPhone: _phoneController.text.trim(),
+        dispatchDescription: _packageDescriptionController.text);
+
     Navigator.of(context).pushNamed(ConfirmDispatch.routeName);
   }
 
@@ -55,16 +59,16 @@ class _RecipientPageState extends State<RecipientPage> {
     final appSzie = Constant.getAppSize(context);
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Stack(
-            children: <Widget>[
-              Form(
-                key: _formKey,
+        body: Stack(
+          children: <Widget>[
+            Form(
+              key: _formKey,
+              child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     Image.asset(
                       'assets/images/recipient.png',
-                      scale: 1.5,
+                      scale: 2,
                     ),
                     SizedBox(
                       height: appSzie.height * 0.04,
@@ -90,7 +94,7 @@ class _RecipientPageState extends State<RecipientPage> {
                     ),
                     Padding(
                         padding:
-                            const EdgeInsets.only(left: 15, right: 15, top: 10),
+                            const EdgeInsets.only(left: 15, right: 15, top: 5),
                         child: AppTextInputWIdget(
                           labelText: "Phone",
                           prefixIcon: FontAwesomeIcons.phone,
@@ -100,8 +104,21 @@ class _RecipientPageState extends State<RecipientPage> {
                             return Constant.stringValidator(value, "Phone");
                           },
                         )),
+                    Padding(
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 5),
+                        child: AppTextInputMultilineWIdget(
+                          labelText: "Package Description",
+                          prefixIcon: FontAwesomeIcons.shopify,
+                          obscureText: false,
+                          controller: _packageDescriptionController,
+                          validator: (value) {
+                            return Constant.stringValidator(
+                                value, "Package Description");
+                          },
+                        )),
                     SizedBox(
-                      height: appSzie.height * 0.07,
+                      height: appSzie.height * 0.06,
                     ),
                     AppButtonWudget(
                       buttonText: "PROCEED",
@@ -113,23 +130,23 @@ class _RecipientPageState extends State<RecipientPage> {
                   ],
                 ),
               ),
-              Positioned(
-                top: 15.0,
-                left: 10.0,
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Constant.primaryColorDark,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      }),
-                ),
+            ),
+            Positioned(
+              top: 15.0,
+              left: 10.0,
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios,
+                      color: Constant.primaryColorDark,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

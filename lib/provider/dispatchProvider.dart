@@ -17,11 +17,11 @@ Dispatch currentDispatch;
 List<Dispatch> dispatchList;
 String recieverPhone;
 String recieverName;
+String dispatchDescription;
+final dispatchRef = FirebaseDatabase.instance.reference().child('dispatch');
 
 class DispatchProvider with ChangeNotifier {
   Uuid uuid = Uuid();
-  final dispatchRef = FirebaseDatabase.instance.reference().child('dispatch');
-
   Future<ResponseModel> getDispatchList() async {
     dispatchList = dispatchList == null ? [] : dispatchList;
     List<Dispatch> alldispatch = [];
@@ -29,7 +29,7 @@ class DispatchProvider with ChangeNotifier {
       dispatchList.clear();
       await dispatchRef
           .orderByChild("dispatchDate")
-          .equalTo(loggedInUser.id)
+          //  .equalTo(loggedInUser.id)
           .once()
           .then((DataSnapshot dataSnapshot) {
         Map<dynamic, dynamic> dbDispatchLIst = dataSnapshot.value;
@@ -52,11 +52,15 @@ class DispatchProvider with ChangeNotifier {
               estimatedDIspatchDuration: value['estimatedDIspatchDuration'],
               estimatedDistance: value['estimatedDistance'],
               dispatchReciever: value['dispatchReciever'],
-              dispatchRecieverPhone: value['dispatchRecieverPhone']);
+              dispatchRecieverPhone: value['dispatchRecieverPhone'],
+              dispatchDescription: value['dispatchDescription']);
           alldispatch.add(dispatch);
         });
       });
-      dispatchList = alldispatch.reversed.toList();
+      dispatchList =
+          alldispatch.where((d) => d.userId == loggedInUser.id).toList();
+
+      dispatchList.sort((b, a) => a.dispatchDate.compareTo(b.dispatchDate));
       return ResponseModel(true, "Disatch list gotten sucessfully");
     } catch (e) {
       return ResponseModel(false, e.toString());
@@ -64,31 +68,28 @@ class DispatchProvider with ChangeNotifier {
   }
 
   List<Dispatch> getDispatchLIst(String dispatchStatus, List<Dispatch> list) {
-    var dispatchReturn = [];
+    List<Dispatch> dispatchReturn = [];
     if (dispatchStatus == Constant.dispatchPendingStatus) {
       dispatchReturn = list
           .where((ds) => ds.dispatchStatus == Constant.dispatchPendingStatus)
           .toList();
-      return dispatchReturn;
     }
     if (dispatchStatus == Constant.dispatchActiveStatus) {
       dispatchReturn = list
           .where((ds) => ds.dispatchStatus == Constant.dispatchActiveStatus)
           .toList();
-      return dispatchReturn;
     }
     if (dispatchStatus == Constant.dispatchCompletedStatus) {
       dispatchReturn = list
           .where((ds) => ds.dispatchStatus == Constant.dispatchCompletedStatus)
           .toList();
-      return dispatchReturn;
     }
     if (dispatchStatus == Constant.dispatchCancelledStatus) {
       dispatchReturn = list
           .where((ds) => ds.dispatchStatus == Constant.dispatchCancelledStatus)
           .toList();
-      return dispatchReturn;
     }
+    dispatchReturn.sort((b, a) => a.dispatchDate.compareTo(b.dispatchDate));
     return dispatchReturn;
   }
 
@@ -111,7 +112,8 @@ class DispatchProvider with ChangeNotifier {
         "estimatedDistance": dispatch.estimatedDistance,
         "dispatchTotalFare": dispatch.dispatchTotalFare,
         "dispatchReciever": dispatch.dispatchReciever,
-        "dispatchRecieverPhone": dispatch.dispatchRecieverPhone
+        "dispatchRecieverPhone": dispatch.dispatchRecieverPhone,
+        "dispatchDescription": dispatch.dispatchDescription
       });
       dispatchList.add(dispatch);
       await createPendingDispatchNotification(dispatch);
@@ -142,7 +144,8 @@ class DispatchProvider with ChangeNotifier {
           estimatedDistance: placeDistanceTime.distance,
           dispatchTotalFare: 5000,
           dispatchReciever: recieverName,
-          dispatchRecieverPhone: recieverPhone);
+          dispatchRecieverPhone: recieverPhone,
+          dispatchDescription: dispatchDescription);
       currentDispatch = dispatch;
       return ResponseModel(true, "dispatch created sucessfully");
     } catch (e) {
@@ -199,6 +202,7 @@ class DispatchProvider with ChangeNotifier {
               pickUp: dispatch.pickUpLocation,
               notificationDate: DateTime.now(),
               recipientPhone: dispatch.dispatchRecieverPhone,
+              isUserNotification: false,
               isNotificationSent: false);
 
       await notificationRef.child(dispatchNotification.id).set({
@@ -210,6 +214,7 @@ class DispatchProvider with ChangeNotifier {
         "pickUp": dispatchNotification.pickUp,
         "recipientPhone": dispatchNotification.recipientPhone,
         "isNotificationSent": dispatchNotification.isNotificationSent,
+        "isUserNotification": dispatchNotification.isUserNotification,
         "notificationDate": dispatchNotification.notificationDate.toString(),
       });
     } catch (e) {

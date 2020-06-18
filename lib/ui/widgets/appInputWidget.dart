@@ -44,9 +44,16 @@ class AppTextInputMultilineWIdget extends StatelessWidget {
   final String labelText;
   final IconData prefixIcon;
   final bool obscureText;
+  final TextEditingController controller;
+  final Function validator;
 
   const AppTextInputMultilineWIdget(
-      {Key key, this.labelText, this.prefixIcon, this.obscureText})
+      {Key key,
+      this.labelText,
+      this.prefixIcon,
+      this.obscureText,
+      this.controller,
+      this.validator})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -54,6 +61,8 @@ class AppTextInputMultilineWIdget extends StatelessWidget {
       keyboardType: TextInputType.multiline,
       maxLines: null,
       style: AppTextStyles.appTextStyle,
+      validator: validator,
+      controller: controller,
       decoration: InputDecoration(
           labelText: labelText,
           labelStyle: AppTextStyles.labelTextStyle,

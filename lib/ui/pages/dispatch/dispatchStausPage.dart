@@ -54,6 +54,8 @@ class DispatchStatus extends StatelessWidget {
                     AppSmallButtonWudget(
                       buttonText: "OK",
                       function: () {
+                        // Navigator.of(context).pushReplacementNamed(
+                        //     DispatchHistoryPage.routeName);
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             HompePage.routeName,
                             (Route<dynamic> route) => false);

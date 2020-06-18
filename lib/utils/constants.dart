@@ -74,6 +74,36 @@ class Constant {
       ..show();
   }
 
+  static showConfirmationDialogue(
+      String message, BuildContext context, Function function) async {
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.WARNING,
+        animType: AnimType.TOPSLIDE,
+        headerAnimationLoop: false,
+        // title: 'Error',
+        body: Column(
+          children: <Widget>[
+            Text(
+              "Confirm",
+              style: AppTextStyles.appDarkHeaderTextStyle,
+            ),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.appTextStyle,
+            )
+          ],
+        ),
+        //  desc: message,
+        btnOkOnPress: function,
+        btnCancelIcon: Icons.cancel,
+        btnCancelOnPress: () {},
+        btnOkIcon: Icons.check,
+        btnOkColor: Constant.primaryColorDark)
+      ..show();
+  }
+
   // static showFialureDialogue(String message, BuildContext context) async {
   //   await showDialog(
   //       context: context,

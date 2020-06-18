@@ -31,6 +31,11 @@ class AppTextStyles {
   static final smallWhiteTextStyle = GoogleFonts.poppins(
       fontSize: 10, color: Colors.white, fontWeight: FontWeight.w600);
 
+  static final smallDarkTextStyle = GoogleFonts.poppins(
+      fontSize: 10,
+      color: Constant.primaryColorDark,
+      fontWeight: FontWeight.w600);
+
   static final smallprimaryColorTextStyle = GoogleFonts.poppins(
     fontSize: 12,
     color: Constant.primaryColorDark,

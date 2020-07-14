@@ -1,9 +1,6 @@
 import 'dart:async';
-
-import 'package:dispatch_app_client/model/placeDetail.dart';
-
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/provider/googleMpaProvider.dart';
-
 import 'package:dispatch_app_client/ui/widgets/appDrawer.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';

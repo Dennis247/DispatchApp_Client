@@ -3,10 +3,8 @@ import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
 import 'package:dispatch_app_client/ui/pages/auth/signUpPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
-import 'package:dispatch_app_client/ui/pages/onBoarding/OnBoardingPage.dart';
 import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/ui/widgets/appInputWidget.dart';
-
 import 'package:dispatch_app_client/ui/widgets/appTextWidget.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -34,9 +32,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    Provider.of<NotificationProvider>(context, listen: false)
-        .initialisePushNotification();
-
     //check onBoardingData
     _tryAutoLogin();
     super.initState();
@@ -76,69 +71,74 @@ class _LoginPageState extends State<LoginPage> {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                Image.asset(
-                  'assets/images/on_the_way.png',
-                  scale: 1.5,
-                ),
-                SizedBox(
-                  height: appSzie.height * 0.04,
-                ),
-                Text.rich(
-                  AppTextWidget.appTextSpan("Login to ", "Easy Dispatch"),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: appSzie.height * 0.03,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: AppTextInputWIdget(
-                    labelText: "email",
-                    prefixIcon: FontAwesomeIcons.user,
-                    obscureText: false,
-                    controller: _emailController,
-                    validator: (value) {
-                      return Constant.stringValidator(value, "email");
-                    },
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/images/on_the_way.png',
+                    scale: 1.5,
                   ),
-                ),
-                Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, right: 15, top: 10),
-                    child: AppTextInputWIdget(
-                      labelText: "password",
-                      prefixIcon: FontAwesomeIcons.envelope,
-                      obscureText: true,
-                      controller: _passwordController,
-                      validator: (value) {
-                        return Constant.stringValidator(value, "password");
-                      },
-                    )),
-                SizedBox(
-                  height: appSzie.height * 0.05,
-                ),
-                _isLoading
-                    ? Constant.circularInidcator()
-                    : AppButtonWudget(
-                        buttonText: "Login", function: _loginUser),
-                SizedBox(
-                  height: appSzie.height * 0.03,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(SignUpPage.routeName);
-                  },
-                  child: Text.rich(
-                    AppTextWidget.appSmallTextSpan(
-                        "Don't have an Account? ", "Sign Up"),
+                  SizedBox(
+                    height: appSzie.height * 0.04,
+                  ),
+                  Text.rich(
+                    AppTextWidget.appTextSpan("Login to ", "Easy Dispatch"),
                     textAlign: TextAlign.center,
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: appSzie.height * 0.03,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: AppTextInputWIdget(
+                      labelText: "email",
+                      prefixIcon: FontAwesomeIcons.user,
+                      obscureText: false,
+                      controller: _emailController,
+                      validator: (value) {
+                        return Constant.stringValidator(value, "email");
+                      },
+                    ),
+                  ),
+                  Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 10),
+                      child: AppTextInputWIdget(
+                        labelText: "password",
+                        prefixIcon: FontAwesomeIcons.envelope,
+                        obscureText: true,
+                        controller: _passwordController,
+                        validator: (value) {
+                          return Constant.stringValidator(value, "password");
+                        },
+                      )),
+                  SizedBox(
+                    height: appSzie.height * 0.05,
+                  ),
+                  _isLoading
+                      ? Constant.circularInidcator()
+                      : AppButtonWudget(
+                          buttonText: "Login", function: _loginUser),
+                  SizedBox(
+                    height: appSzie.height * 0.03,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(SignUpPage.routeName);
+                    },
+                    child: Text.rich(
+                      AppTextWidget.appSmallTextSpan(
+                          "Don't have an Account? ", "Sign Up"),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

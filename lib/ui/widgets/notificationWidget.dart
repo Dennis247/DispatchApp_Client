@@ -1,4 +1,4 @@
-import 'package:dispatch_app_client/model/notification.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';

@@ -1,17 +1,12 @@
-import 'package:dispatch_app_client/model/dispatch.dart';
 import 'package:dispatch_app_client/provider/dispatchProvider.dart';
-import 'package:dispatch_app_client/ui/pages/auth/signUpPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/confirmDispatch.dart';
-import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
 import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/ui/widgets/appInputWidget.dart';
-import 'package:dispatch_app_client/ui/widgets/appLogo.dart';
 import 'package:dispatch_app_client/ui/widgets/appTextWidget.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class RecipientPage extends StatefulWidget {
   static final String routeName = "recipient-page";

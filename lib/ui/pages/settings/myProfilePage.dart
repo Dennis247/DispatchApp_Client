@@ -1,4 +1,4 @@
-import 'package:dispatch_app_client/model/user.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/provider/authProvider.dart';
 import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/ui/widgets/appInputWidget.dart';
@@ -55,7 +55,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
           _phonenumberController.text,
           loggedInUser.email,
           loggedInUser.password,
-          loggedInUser.userType);
+          loggedInUser.userType,
+          loggedInUser.token);
       Provider.of<AUthProvider>(context, listen: false)
           .storeAutoData(loggedInUser);
       if (response.isSUcessfull) {

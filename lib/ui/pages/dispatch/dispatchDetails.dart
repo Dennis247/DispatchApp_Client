@@ -1,6 +1,5 @@
-import 'package:dispatch_app_client/model/dispatch.dart';
 import 'package:dispatch_app_client/provider/dispatchProvider.dart';
-import 'package:dispatch_app_client/ui/pages/dispatch/dispatchHistoryPage.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchStausPage.dart';
 import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';

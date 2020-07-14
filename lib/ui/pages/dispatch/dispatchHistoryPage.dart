@@ -1,5 +1,4 @@
-import 'package:dispatch_app_client/model/dispatch.dart';
-import 'package:dispatch_app_client/model/response.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/ui/widgets/dispatchHistoryWidget.dart';
 import 'package:dispatch_app_client/utils/appStyles.dart';

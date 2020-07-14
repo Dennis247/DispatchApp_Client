@@ -80,7 +80,8 @@ class Constant {
         context: context,
         dialogType: DialogType.WARNING,
         animType: AnimType.TOPSLIDE,
-        headerAnimationLoop: false,
+        headerAnimationLoop: true,
+
         // title: 'Error',
         body: Column(
           children: <Widget>[
@@ -103,56 +104,6 @@ class Constant {
         btnOkColor: Constant.primaryColorDark)
       ..show();
   }
-
-  // static showFialureDialogue(String message, BuildContext context) async {
-  //   await showDialog(
-  //       context: context,
-  //       builder: (ctx) {
-  //         return AlertDialog(
-  //           title: Text(
-  //             "Something went wrong",
-  //             style: AppTextStyles.appTextStyle,
-  //           ),
-  //           content: Text(
-  //             message,
-  //             style: AppTextStyles.redlabelTextStyle,
-  //           ),
-  //           actions: <Widget>[
-  //             FlatButton(
-  //               child: Text("OK"),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             )
-  //           ],
-  //         );
-  //       });
-  // }
-
-  // static showSuccessDialogue(String message, BuildContext context) async {
-  //   await showDialog(
-  //       context: context,
-  //       builder: (ctx) {
-  //         return AlertDialog(
-  //           title: Text(
-  //             "Operation Sucessfull",
-  //             style: AppTextStyles.appTextStyle,
-  //           ),
-  //           content: Text(
-  //             message,
-  //             style: AppTextStyles.greenlabelTextStyle,
-  //           ),
-  //           actions: <Widget>[
-  //             FlatButton(
-  //               child: Text("OK"),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             )
-  //           ],
-  //         );
-  //       });
-  // }
 
   static Widget circularInidcator() {
     return JumpingText(
@@ -188,7 +139,8 @@ class Constant {
   static final String hiveData = "hive data";
   static final String userTypeUser = "user";
   static final String userTypeDriver = "driver";
-  static final String pendingDispatchMessage = "Pick up is waiting at ";
+  static final String pendingDispatchMessage =
+      "Pick up is waiting for {{user}} at {{destination}} ";
   static final String completedDispatchMessage = "Dispatch Completed for  ";
   static final String pendingDispatchNotification = "pending dispatch";
   static final String completedDispatchNotification = "completed dispatch";

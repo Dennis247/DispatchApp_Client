@@ -1,11 +1,5 @@
-import 'dart:convert';
-import 'package:dispatch_app_client/model/PlaceDistanceTime.dart';
-import 'package:dispatch_app_client/model/placeDetail.dart';
-import 'package:dispatch_app_client/model/response.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:dispatch_app_client/src/lib_export.dart';
 
 class GoogleMapProvider with ChangeNotifier {
   Future<List> getSuggestions(String query, String sessionToken) async {
@@ -14,8 +8,9 @@ class GoogleMapProvider with ChangeNotifier {
     String type = 'establishment';
     String apiKey = Constant.apiKey;
     String url =
-        '$baseUrl?input=$query&key=$apiKey&type=$type&language=en&components=country:ng&sessiontoken=$sessionToken';
+        '$baseUrl?input=$query&key=$apiKey&type=$type&language=en&components=country:ng&location=6.5244,3.3792&sessiontoken=$sessionToken';
     print('Autocomplete(sessionToken): $sessionToken');
+
     final http.Response response = await http.get(url);
     final responseData = json.decode(response.body);
     final predictions = responseData['predictions'];

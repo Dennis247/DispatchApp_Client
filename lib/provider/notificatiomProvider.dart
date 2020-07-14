@@ -1,33 +1,16 @@
-import 'package:dispatch_app_client/model/notification.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:dispatch_app_client/provider/authProvider.dart';
+//import 'package:http/http.dart' as http;
+import 'package:dispatch_app_client/src/lib_export.dart';
 
 final notificationRef =
     FirebaseDatabase.instance.reference().child('notification');
-FlutterLocalNotificationsPlugin flp;
 
 class NotificationProvider with ChangeNotifier {
-  void initialisePushNotification() {
-    flp = FlutterLocalNotificationsPlugin();
+  void displayNotification(String title, String notificationMessage) async {
+    FlutterLocalNotificationsPlugin flp = FlutterLocalNotificationsPlugin();
     var android = AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOS = IOSInitializationSettings();
     var initSetttings = InitializationSettings(android, iOS);
     flp.initialize(initSetttings);
-  }
-
-  // void showNotification(String notificationMessage,FlutterLocalNotificationsPlugin  flp) async {
-  //   var android = AndroidNotificationDetails(
-  //       'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
-  //       priority: Priority.High, importance: Importance.Max);
-  //   var iOS = IOSNotificationDetails();
-  //   var platform = NotificationDetails(android, iOS);
-  //   await flp.show(0, notificationMessage, platform,
-  //       payload: notificationMessage);
-  // }
-
-  void displayNotification(String title, String notificationMessage) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'channel id',
       'channel name',
@@ -57,7 +40,8 @@ class NotificationProvider with ChangeNotifier {
             recipientPhone: value['recipientPhone'],
             isUserNotification: value['isUserNotification'],
             notificationDate: DateTime.parse(value['notificationDate']),
-            isNotificationSent: value['isNotificationSent']);
+            isNotificationSent: value['isNotificationSent'],
+            tokens: value['tokens']);
         allNotification.add(notification);
       });
       allNotification =

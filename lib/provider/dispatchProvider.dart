@@ -1,17 +1,5 @@
-import 'dart:convert';
-
-import 'package:dispatch_app_client/model/PlaceDistanceTime.dart';
-import 'package:dispatch_app_client/model/dispatch.dart';
-import 'package:dispatch_app_client/model/notification.dart';
-import 'package:dispatch_app_client/model/response.dart';
-import 'package:dispatch_app_client/provider/authProvider.dart';
-import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
+import 'package:dispatch_app_client/src/lib_export.dart';
 
 Dispatch currentDispatch;
 List<Dispatch> dispatchList;
@@ -28,8 +16,8 @@ class DispatchProvider with ChangeNotifier {
     try {
       dispatchList.clear();
       await dispatchRef
-          .orderByChild("dispatchDate")
-          //  .equalTo(loggedInUser.id)
+          .orderByChild("userId")
+          .equalTo(loggedInUser.id)
           .once()
           .then((DataSnapshot dataSnapshot) {
         Map<dynamic, dynamic> dbDispatchLIst = dataSnapshot.value;
@@ -57,9 +45,7 @@ class DispatchProvider with ChangeNotifier {
           alldispatch.add(dispatch);
         });
       });
-      dispatchList =
-          alldispatch.where((d) => d.userId == loggedInUser.id).toList();
-
+      dispatchList = alldispatch;
       dispatchList.sort((b, a) => a.dispatchDate.compareTo(b.dispatchDate));
       return ResponseModel(true, "Disatch list gotten sucessfully");
     } catch (e) {
@@ -191,11 +177,22 @@ class DispatchProvider with ChangeNotifier {
 
   Future<void> createPendingDispatchNotification(Dispatch dispatch) async {
     try {
+      var tokenArray = [];
+      await riderRef.once().then((dataSnapshot) {
+        Map<dynamic, dynamic> riderList = dataSnapshot.value;
+        riderList.forEach((key, value) {
+          tokenArray.add(value['token']);
+        });
+      });
+      String tokenList = tokenArray.join(",");
+      String notificationMessage = Constant.pendingDispatchMessage
+          .replaceAll("{{user}}", loggedInUser.fullName);
+      notificationMessage = notificationMessage.replaceAll(
+          "{{destination}}", dispatch.pickUpLocation);
       final DispatchNotification dispatchNotification =
           new DispatchNotification(
               id: uuid.v4(),
-              message:
-                  Constant.pendingDispatchMessage + dispatch.pickUpLocation,
+              message: notificationMessage,
               dispatchId: dispatch.id,
               userId: dispatch.userId,
               notificationType: Constant.pendingDispatchNotification,
@@ -203,7 +200,8 @@ class DispatchProvider with ChangeNotifier {
               notificationDate: DateTime.now(),
               recipientPhone: dispatch.dispatchRecieverPhone,
               isUserNotification: false,
-              isNotificationSent: false);
+              isNotificationSent: false,
+              tokens: tokenList);
 
       await notificationRef.child(dispatchNotification.id).set({
         "id": dispatchNotification.id,
@@ -216,6 +214,7 @@ class DispatchProvider with ChangeNotifier {
         "isNotificationSent": dispatchNotification.isNotificationSent,
         "isUserNotification": dispatchNotification.isUserNotification,
         "notificationDate": dispatchNotification.notificationDate.toString(),
+        "tokens": dispatchNotification.tokens
       });
     } catch (e) {
       print(e.toString());

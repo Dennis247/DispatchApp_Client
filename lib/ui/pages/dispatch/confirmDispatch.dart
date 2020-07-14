@@ -1,4 +1,4 @@
-import 'package:dispatch_app_client/model/response.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchStausPage.dart';
@@ -120,6 +120,8 @@ class _ConfirmDispatchState extends State<ConfirmDispatch> {
                       notificationProvider.displayNotification(
                           "Dispatch Sucessfull",
                           "Dispatch Rider on the way for pick up!");
+                      //send pending notification
+
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => DispatchStatus(
                                 imageUrl: "assets/images/express.png",

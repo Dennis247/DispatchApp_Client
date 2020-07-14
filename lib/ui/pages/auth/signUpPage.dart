@@ -1,4 +1,3 @@
-import 'package:dispatch_app_client/model/user.dart';
 import 'package:dispatch_app_client/provider/authProvider.dart';
 import 'package:dispatch_app_client/ui/pages/auth/loginPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
@@ -9,6 +8,7 @@ import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 
 class SignUpPage extends StatefulWidget {
   static final String routeName = "signup-page";
@@ -44,7 +44,8 @@ class _SignUpPageState extends State<SignUpPage> {
           _phoneNumberController.text.trim(),
           _emailController.text.trim(),
           _passwordController.text.trim(),
-          Constant.userTypeUser);
+          Constant.userTypeUser,
+          null);
       final response =
           await Provider.of<AUthProvider>(context, listen: false).signUp(user);
       if (response.isSUcessfull) {
@@ -66,95 +67,104 @@ class _SignUpPageState extends State<SignUpPage> {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                Image.asset(
-                  'assets/images/on_the_way.png',
-                  scale: 2.5,
-                ),
-                SizedBox(
-                  height: appSzie.height * 0.03,
-                ),
-                Text.rich(
-                  AppTextWidget.appTextSpan("sign up on ", "Easy Dispatch"),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: appSzie.height * 0.02,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: AppTextInputWIdget(
-                    labelText: "full name",
-                    prefixIcon: FontAwesomeIcons.user,
-                    obscureText: false,
-                    controller: _fullNameController,
-                    validator: (value) {
-                      return Constant.stringValidator(value, "full name");
-                    },
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/images/on_the_way.png',
+                    scale: 2.5,
                   ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15, top: 8),
+                  SizedBox(
+                    height: appSzie.height * 0.03,
+                  ),
+                  Text.rich(
+                    AppTextWidget.appTextSpan("sign up on ", "Easy Dispatch"),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: appSzie.height * 0.02,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
                     child: AppTextInputWIdget(
-                      labelText: "phone number",
-                      controller: _phoneNumberController,
-                      prefixIcon: FontAwesomeIcons.phone,
+                      labelText: "full name",
+                      prefixIcon: FontAwesomeIcons.user,
                       obscureText: false,
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        return Constant.stringValidator(value, "phone number");
-                      },
-                    )),
-                Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15, top: 8),
-                    child: AppTextInputWIdget(
-                      labelText: "email",
-                      controller: _emailController,
-                      prefixIcon: FontAwesomeIcons.envelope,
-                      obscureText: false,
-                      validator: (value) {
-                        return Constant.stringValidator(value, "email");
-                      },
-                    )),
-                Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15, top: 8),
-                    child: AppTextInputWIdget(
-                      labelText: "password",
-                      controller: _passwordController,
-                      prefixIcon: FontAwesomeIcons.lock,
-                      obscureText: true,
+                      controller: _fullNameController,
                       validator: (value) {
                         return Constant.stringValidator(value, "full name");
                       },
-                    )),
-                SizedBox(
-                  height: appSzie.height * 0.04,
-                ),
-                _isLoading
-                    ? Constant.circularInidcator()
-                    : AppButtonWudget(
-                        buttonText: "Sign Up",
-                        function: () {
-                          _signUpUser();
-                        },
-                      ),
-                SizedBox(
-                  height: appSzie.height * 0.02,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(LoginPage.routeName);
-                  },
-                  child: Text.rich(
-                    AppTextWidget.appSmallTextSpan(
-                        "already have an account? ", "Log In"),
-                    textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 8),
+                      child: AppTextInputWIdget(
+                        labelText: "phone number",
+                        controller: _phoneNumberController,
+                        prefixIcon: FontAwesomeIcons.phone,
+                        obscureText: false,
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          return Constant.stringValidator(
+                              value, "phone number");
+                        },
+                      )),
+                  Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 8),
+                      child: AppTextInputWIdget(
+                        labelText: "email",
+                        controller: _emailController,
+                        prefixIcon: FontAwesomeIcons.envelope,
+                        obscureText: false,
+                        validator: (value) {
+                          return Constant.stringValidator(value, "email");
+                        },
+                      )),
+                  Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 8),
+                      child: AppTextInputWIdget(
+                        labelText: "password",
+                        controller: _passwordController,
+                        prefixIcon: FontAwesomeIcons.lock,
+                        obscureText: true,
+                        validator: (value) {
+                          return Constant.stringValidator(value, "full name");
+                        },
+                      )),
+                  SizedBox(
+                    height: appSzie.height * 0.04,
+                  ),
+                  _isLoading
+                      ? Constant.circularInidcator()
+                      : AppButtonWudget(
+                          buttonText: "Sign Up",
+                          function: () {
+                            _signUpUser();
+                          },
+                        ),
+                  SizedBox(
+                    height: appSzie.height * 0.02,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(LoginPage.routeName);
+                    },
+                    child: Text.rich(
+                      AppTextWidget.appSmallTextSpan(
+                          "already have an account? ", "Log In"),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

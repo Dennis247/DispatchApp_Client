@@ -15,6 +15,8 @@ class AUthProvider with ChangeNotifier {
       final authResult = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       final dataSnapShot = await userRef.child(authResult.user.uid).once();
+      FirebaseMessaging messaging = FirebaseMessaging();
+      final token = await messaging.getToken();
       loggedInUser = User(
           dataSnapShot.value['id'],
           dataSnapShot.value['fullname'],
@@ -23,6 +25,14 @@ class AUthProvider with ChangeNotifier {
           password,
           dataSnapShot.value['userType'],
           dataSnapShot.value['token']);
+      await userRef.child(authResult.user.uid).set({
+        "id": authResult.user.uid,
+        "email": loggedInUser.email,
+        "fullname": loggedInUser.fullName,
+        "phoneNumber": loggedInUser.phoneNumber,
+        "userType": loggedInUser.userType,
+        "token": token
+      });
       storeAutoData(loggedInUser);
       storeAppOnBoardingData(loggedInUser.id);
       return ResponseModel(true, "User SignIn Sucessfull");
@@ -138,6 +148,9 @@ class AUthProvider with ChangeNotifier {
     }
     final sharedData = sharedPref.getString(Constant.autoLogOnData);
     final logOnData = json.decode(sharedData) as Map<String, Object>;
+    //gdt latest token
+    FirebaseMessaging messaging = FirebaseMessaging();
+    final token = await messaging.getToken();
     loggedInUser = new User(
         logOnData['id'],
         logOnData['fullName'],
@@ -145,7 +158,7 @@ class AUthProvider with ChangeNotifier {
         logOnData['email'],
         logOnData['password'],
         logOnData['userType'],
-        logOnData['token']);
+        token);
     isLoggedIn = true;
     notifyListeners();
     return true;

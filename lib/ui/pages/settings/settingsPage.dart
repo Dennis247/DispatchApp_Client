@@ -1,8 +1,7 @@
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/ui/pages/settings/creditCardPage.dart';
 import 'package:dispatch_app_client/ui/pages/settings/updatePasswordPage.dart';
 import 'package:dispatch_app_client/ui/pages/settings/myProfilePage.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -21,7 +20,7 @@ class SettingsPage extends StatelessWidget {
                 children: <Widget>[
                   Icon(
                     iconData,
-                    color: Constant.primaryColorDark,
+                    color: Constants.primaryColorDark,
                   ),
                   SizedBox(
                     width: 20,
@@ -38,7 +37,7 @@ class SettingsPage extends StatelessWidget {
                 width: 75,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Constant.primaryColorDark,
+                    color: Constants.primaryColorDark,
                     width: 1,
                   ),
                   borderRadius: BorderRadius.circular(12),
@@ -64,7 +63,7 @@ class SettingsPage extends StatelessWidget {
   static final routeName = "settings-page";
   @override
   Widget build(BuildContext context) {
-    final appSize = Constant.getAppSize(context);
+    final appSize = GlobalWidgets.getAppSize(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -89,7 +88,7 @@ class SettingsPage extends StatelessWidget {
               Icon(
                 Icons.settings,
                 size: 150,
-                color: Constant.primaryColorDark,
+                color: Constants.primaryColorDark,
               ),
               Text(
                 "User Settings",

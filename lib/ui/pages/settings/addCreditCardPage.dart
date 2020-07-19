@@ -1,6 +1,5 @@
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/ui/pages/settings/creditCardPage.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
@@ -35,7 +34,7 @@ class _AddCreditCardPageState extends State<AddCreditCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final appSize = Constant.getAppSize(context);
+    final appSize = GlobalWidgets.getAppSize(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -72,7 +71,7 @@ class _AddCreditCardPageState extends State<AddCreditCardPage> {
                 cvvCode: cvvCode,
                 showBackView: isCvvFocused,
                 height: appSize.height * 0.25,
-                cardBgColor: Constant.primaryColorLight,
+                cardBgColor: Constants.primaryColorLight,
                 textStyle: AppTextStyles.appTextStyle),
             Expanded(
               child: SingleChildScrollView(

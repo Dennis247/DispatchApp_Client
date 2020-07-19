@@ -1,5 +1,4 @@
-import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:dispatch_app_client/ui/pages/settings/addCreditCardPage.dart';
@@ -8,7 +7,7 @@ class CreditCardPage extends StatelessWidget {
   static final String routeName = "credit-card";
   @override
   Widget build(BuildContext context) {
-    final appSize = Constant.getAppSize(context);
+    final appSize = GlobalWidgets.getAppSize(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -48,7 +47,7 @@ class CreditCardPage extends StatelessWidget {
               cvvCode: '',
               showBackView: false,
               height: appSize.height * 0.25,
-              cardBgColor: Constant.primaryColorDark,
+              cardBgColor: Constants.primaryColorDark,
               textStyle: AppTextStyles.appLightTextStyle,
             ),
           ),

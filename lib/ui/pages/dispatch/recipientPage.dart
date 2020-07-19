@@ -1,10 +1,5 @@
-import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/confirmDispatch.dart';
-import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
-import 'package:dispatch_app_client/ui/widgets/appInputWidget.dart';
-import 'package:dispatch_app_client/ui/widgets/appTextWidget.dart';
 import 'package:dispatch_app_client/src/lib_export.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -51,7 +46,7 @@ class _RecipientPageState extends State<RecipientPage> {
 
   @override
   Widget build(BuildContext context) {
-    final appSzie = Constant.getAppSize(context);
+    final appSzie = GlobalWidgets.getAppSize(context);
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -83,7 +78,7 @@ class _RecipientPageState extends State<RecipientPage> {
                         obscureText: false,
                         controller: _nameController,
                         validator: (value) {
-                          return Constant.stringValidator(value, "Name");
+                          return Constants.stringValidator(value, "Name");
                         },
                       ),
                     ),
@@ -96,7 +91,7 @@ class _RecipientPageState extends State<RecipientPage> {
                           obscureText: false,
                           controller: _phoneController,
                           validator: (value) {
-                            return Constant.stringValidator(value, "Phone");
+                            return Constants.stringValidator(value, "Phone");
                           },
                         )),
                     Padding(
@@ -108,7 +103,7 @@ class _RecipientPageState extends State<RecipientPage> {
                           obscureText: false,
                           controller: _packageDescriptionController,
                           validator: (value) {
-                            return Constant.stringValidator(
+                            return Constants.stringValidator(
                                 value, "Package Description");
                           },
                         )),
@@ -134,7 +129,7 @@ class _RecipientPageState extends State<RecipientPage> {
                 child: IconButton(
                     icon: Icon(
                       Icons.arrow_back_ios,
-                      color: Constant.primaryColorDark,
+                      color: Constants.primaryColorDark,
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();

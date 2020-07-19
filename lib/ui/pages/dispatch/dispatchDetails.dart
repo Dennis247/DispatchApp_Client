@@ -1,18 +1,15 @@
-import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchStausPage.dart';
-import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
 import 'dispatchLocation.dart';
 
 class DispatchDetails extends StatefulWidget {
   final Dispatch dispatch;
-  const DispatchDetails({Key key, this.dispatch}) : super(key: key);
+  final bool isNotificationType;
+  const DispatchDetails({Key key, this.dispatch, this.isNotificationType})
+      : super(key: key);
 
   @override
   _DispatchDetailsState createState() => _DispatchDetailsState();
@@ -69,13 +66,13 @@ class _DispatchDetailsState extends State<DispatchDetails> {
             ? SizedBox(
                 width: 100,
                 child: RaisedButton.icon(
-                    color: Constant.primaryColorLight,
+                    color: Constants.primaryColorLight,
                     shape: StadiumBorder(),
                     onPressed: function,
                     icon: Icon(
                       iconData,
                       size: 16,
-                      color: Constant.primaryColorDark,
+                      color: Constants.primaryColorDark,
                     ),
                     label: Text(
                       iconTitle,
@@ -88,23 +85,26 @@ class _DispatchDetailsState extends State<DispatchDetails> {
   }
 
   _showCancelMapButton() {
-    if (widget.dispatch.dispatchStatus == Constant.dispatchCompletedStatus ||
-        widget.dispatch.dispatchStatus == Constant.dispatchCancelledStatus)
+    if (widget.isNotificationType) {
+      return false;
+    }
+    if (widget.dispatch.dispatchStatus == Constants.dispatchCompletedStatus ||
+        widget.dispatch.dispatchStatus == Constants.dispatchCancelledStatus)
       return false;
     return true;
   }
 
   _showCurrentLocation() {
-    if (widget.dispatch.dispatchStatus == Constant.dispatchCompletedStatus ||
-        widget.dispatch.dispatchStatus == Constant.dispatchCancelledStatus ||
-        widget.dispatch.dispatchStatus == Constant.dispatchPendingStatus)
+    if (widget.dispatch.dispatchStatus == Constants.dispatchCompletedStatus ||
+        widget.dispatch.dispatchStatus == Constants.dispatchCancelledStatus ||
+        widget.dispatch.dispatchStatus == Constants.dispatchPendingStatus)
       return false;
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
-    final appSzie = Constant.getAppSize(context);
+    final appSzie = GlobalWidgets.getAppSize(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -146,7 +146,7 @@ class _DispatchDetailsState extends State<DispatchDetails> {
                     "Total Distance", widget.dispatch.estimatedDistance),
                 Divider(),
                 _isLoading
-                    ? Constant.circularInidcator()
+                    ? GlobalWidgets.circularInidcator()
                     : _buildRowDetails2(
                         "Delivery Status",
                         widget.dispatch.dispatchStatus,
@@ -154,27 +154,27 @@ class _DispatchDetailsState extends State<DispatchDetails> {
                         "CANCEL", () async {
                         //   _startLoading(true);
                         //show warning dialogue
-                        Constant.showConfirmationDialogue(
+                        GlobalWidgets.showConfirmationDialogue(
                             "Please Confirm Cancel DIspatch", context,
                             () async {
                           final response = await Provider.of<DispatchProvider>(
                                   context,
                                   listen: false)
                               .updateDispatchStatus(widget.dispatch.id,
-                                  Constant.dispatchCancelledStatus);
+                                  Constants.dispatchCancelledStatus);
                           if (response.isSUcessfull == true) {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => DispatchStatus(
                                           dispatchMessage:
-                                              Constant.cancellDispatchMessage,
+                                              Constants.cancellDispatchMessage,
                                           imageUrl: "assets/images/premiun.png",
                                           isDispatchProcessing: false,
                                         )),
                                 (Route<dynamic> route) => false);
                           } else {
                             _startLoading(false);
-                            Constant.showFialureDialogue(
+                            GlobalWidgets.showFialureDialogue(
                                 response.responseMessage, context);
                           }
                         });
@@ -213,35 +213,37 @@ class _DispatchDetailsState extends State<DispatchDetails> {
           ),
         ),
       ),
-      bottomNavigationBar: widget.dispatch.dispatchStatus ==
-              Constant.dispatchActiveStatus
-          ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: 50,
-                alignment: Alignment.center,
-                child: AppRectButtonWidget(
-                  width: appSzie.width,
-                  buttonText: "COMPLTE DISPATCH",
-                  function: () {
-                    Constant.showConfirmationDialogue(
-                        "Confirm that your dispatch is complete", context,
-                        () async {
-                      Provider.of<DispatchProvider>(context, listen: false)
-                          .updateDispatchStatus(widget.dispatch.id,
-                              Constant.dispatchCompletedStatus);
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => DispatchStatus(
-                                dispatchMessage:
-                                    "Dispatch Complted Sucessfully",
-                                isDispatchProcessing: false,
-                                imageUrl: "assets/images/express.png",
-                              )));
-                    });
-                  },
-                ),
-              ),
-            )
+      bottomNavigationBar: !widget.isNotificationType
+          ? (widget.dispatch.dispatchStatus == Constants.dispatchActiveStatus
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 50,
+                    alignment: Alignment.center,
+                    child: AppRectButtonWidget(
+                      width: appSzie.width,
+                      buttonText: "COMPLTE DISPATCH",
+                      function: () {
+                        GlobalWidgets.showConfirmationDialogue(
+                            "Confirm that your dispatch is complete", context,
+                            () async {
+                          Provider.of<DispatchProvider>(context, listen: false)
+                              .updateDispatchStatus(widget.dispatch.id,
+                                  Constants.dispatchCompletedStatus);
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                                  builder: (context) => DispatchStatus(
+                                        dispatchMessage:
+                                            "Dispatch Complted Sucessfully",
+                                        isDispatchProcessing: false,
+                                        imageUrl: "assets/images/express.png",
+                                      )));
+                        });
+                      },
+                    ),
+                  ),
+                )
+              : Text(""))
           : Text(""),
     );
   }

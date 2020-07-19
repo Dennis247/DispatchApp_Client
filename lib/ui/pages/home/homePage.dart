@@ -1,17 +1,11 @@
 import 'dart:async';
 import 'package:dispatch_app_client/src/lib_export.dart';
-import 'package:dispatch_app_client/provider/dispatchProvider.dart';
-import 'package:dispatch_app_client/provider/googleMpaProvider.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/recipientPage.dart';
-import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
 import 'package:dispatch_app_client/ui/widgets/appDrawer.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -107,7 +101,7 @@ class _HompePageState extends State<HompePage> {
     polylineCoordinates.clear();
     _polylines.clear();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        Constant.apiKey,
+        Constants.apiKey,
         PointLatLng(_startPlaceDetail.lat, _startPlaceDetail.lng),
         PointLatLng(_endPlaceDetail.lat, _endPlaceDetail.lng),
         travelMode: TravelMode.driving,
@@ -120,7 +114,7 @@ class _HompePageState extends State<HompePage> {
     setState(() {
       Polyline polyline = Polyline(
           polylineId: PolylineId('poly'),
-          color: Constant.primaryColorDark,
+          color: Constants.primaryColorDark,
           width: 4,
           points: polylineCoordinates);
       _polylines.add(polyline);
@@ -249,7 +243,7 @@ class _HompePageState extends State<HompePage> {
 
   _buildSelectLocation(Size appSize, GoogleMapProvider googleMapProvider) {
     return Container(
-      color: Constant.primaryColorLight,
+      color: Constants.primaryColorLight,
       width: appSize.width,
       child: Column(
         children: <Widget>[
@@ -306,7 +300,8 @@ class _HompePageState extends State<HompePage> {
         if (responseModel.isSUcessfull) {
           _buildBottomSheetConfirmation(currentDispatch, image);
         } else {
-          Constant.showFialureDialogue(responseModel.responseMessage, context);
+          GlobalWidgets.showFialureDialogue(
+              responseModel.responseMessage, context);
         }
 
         //show Dispatch Confirmation pop Up
@@ -330,7 +325,7 @@ class _HompePageState extends State<HompePage> {
           borderRadius: BorderRadius.circular(20.0),
           color: const Color(0xffffffff),
           border: _selectedIdnex == index
-              ? Border.all(width: 2.0, color: Constant.primaryColorDark)
+              ? Border.all(width: 2.0, color: Constants.primaryColorDark)
               : Border.all(width: 0.5, color: Colors.grey),
         ),
       ),
@@ -345,7 +340,7 @@ class _HompePageState extends State<HompePage> {
             color: Colors.transparent,
             height: 125,
             child: _isloading
-                ? Constant.circularInidcator()
+                ? GlobalWidgets.circularInidcator()
                 : ListView(
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
@@ -354,19 +349,19 @@ class _HompePageState extends State<HompePage> {
                           child: _buildDeliveryOptions(
                               0,
                               "assets/images/economy.png",
-                              Constant.dispatchTypeEconomy)),
+                              Constants.dispatchTypeEconomy)),
                       Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: _buildDeliveryOptions(
                               1,
                               "assets/images/express.png",
-                              Constant.dispatchTypeExpress)),
+                              Constants.dispatchTypeExpress)),
                       Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: _buildDeliveryOptions(
                               2,
                               "assets/images/premiun.png",
-                              Constant.dispatchTypePremiun)),
+                              Constants.dispatchTypePremiun)),
                     ],
                   )),
         SizedBox(
@@ -402,54 +397,9 @@ class _HompePageState extends State<HompePage> {
     );
   }
 
-  _buildDispatchConfirmationAlert(Dispatch dispatch, String image) {
-    showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-              content: Container(
-                child: ListView(
-                  children: <Widget>[
-                    Image.asset(
-                      image,
-                    ),
-                    _buildListTileDialogue("Pick Up", dispatch.pickUpLocation),
-                    Divider(),
-                    _buildListTileDialogue(
-                        "Delivery Location", dispatch.dispatchDestination),
-                    Divider(),
-                    _buildListTileDialogue("Total Distance", "50 KM"),
-                    Divider(),
-                    _buildListTileDialogue("Estimated Time", "1hr"),
-                    Divider(),
-                    _buildListTileDialogue("Base Delivery Fee", "N 1000"),
-                    Divider(),
-                    _buildListTileDialogue("Total Delivery Fee", "N 5000"),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                FlatButton(
-                    color: Colors.white,
-                    child: Text(
-                      "CANCEL",
-                    ),
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    }),
-                FlatButton(
-                  child: Text("OK"),
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed(RecipientPage.routeName);
-                  },
-                  color: Constant.primaryColorDark,
-                ),
-              ],
-            ));
-  }
 
   _buildBottomSheetConfirmation(Dispatch dispatch, String image) async {
-    final appSize = Constant.getAppSize(context);
+    final appSize = GlobalWidgets.getAppSize(context);
     return showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -512,7 +462,7 @@ class _HompePageState extends State<HompePage> {
 
   @override
   Widget build(BuildContext context) {
-    final appSize = Constant.getAppSize(context);
+    final appSize = GlobalWidgets.getAppSize(context);
     final googleMapProvider =
         Provider.of<GoogleMapProvider>(context, listen: false);
     return SafeArea(
@@ -549,7 +499,7 @@ class _HompePageState extends State<HompePage> {
                 child: IconButton(
                     icon: Icon(
                       Icons.menu,
-                      color: Constant.primaryColorDark,
+                      color: Constants.primaryColorDark,
                     ),
                     onPressed: () {
                       _scaffoldKey.currentState.openDrawer();

@@ -1,8 +1,5 @@
 import 'package:dispatch_app_client/src/lib_export.dart';
-import 'package:dispatch_app_client/provider/dispatchProvider.dart';
 import 'package:dispatch_app_client/ui/widgets/dispatchHistoryWidget.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -38,7 +35,7 @@ class _DispatchHistoryPageState extends State<DispatchHistoryPage> {
     if (responseModel.isSUcessfull) {
       _currentDispatchList = dispatchList;
     } else {
-      Constant.showFialureDialogue(responseModel.responseMessage, context);
+      GlobalWidgets.showFialureDialogue(responseModel.responseMessage, context);
     }
   }
 
@@ -49,30 +46,30 @@ class _DispatchHistoryPageState extends State<DispatchHistoryPage> {
         Provider.of<DispatchProvider>(context, listen: false);
     if (page == 0) {
       _currentDispatchList = dispatchProvider.getDispatchLIst(
-          Constant.dispatchActiveStatus, dispatchList);
-      return Constant.dispatchActiveStatus.toUpperCase();
+          Constants.dispatchActiveStatus, dispatchList);
+      return Constants.dispatchActiveStatus.toUpperCase();
     }
     if (page == 1) {
       _currentDispatchList = dispatchProvider.getDispatchLIst(
-          Constant.dispatchPendingStatus, dispatchList);
-      return Constant.dispatchPendingStatus.toUpperCase();
+          Constants.dispatchPendingStatus, dispatchList);
+      return Constants.dispatchPendingStatus.toUpperCase();
     }
     if (page == 2) {
       _currentDispatchList = dispatchProvider.getDispatchLIst(
-          Constant.dispatchCompletedStatus, dispatchList);
-      return Constant.dispatchCompletedStatus.toUpperCase();
+          Constants.dispatchCompletedStatus, dispatchList);
+      return Constants.dispatchCompletedStatus.toUpperCase();
     }
     if (page == 3) {
       _currentDispatchList = dispatchProvider.getDispatchLIst(
-          Constant.dispatchCancelledStatus, dispatchList);
-      return Constant.dispatchCancelledStatus.toUpperCase();
+          Constants.dispatchCancelledStatus, dispatchList);
+      return Constants.dispatchCancelledStatus.toUpperCase();
     }
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    final appSize = Constant.getAppSize(context);
+    final appSize = GlobalWidgets.getAppSize(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -90,7 +87,7 @@ class _DispatchHistoryPageState extends State<DispatchHistoryPage> {
             }),
       ),
       body: _isLoading
-          ? Center(child: Constant.circularInidcator())
+          ? Center(child: GlobalWidgets.circularInidcator())
           : Container(
               height: appSize.height,
               width: appSize.width,
@@ -133,27 +130,27 @@ class _DispatchHistoryPageState extends State<DispatchHistoryPage> {
                 Icon(
                   Icons.desktop_mac,
                   size: 25,
-                  color: Constant.primaryColorLight,
+                  color: Constants.primaryColorLight,
                 ),
                 Icon(
                   Icons.list,
                   size: 25,
-                  color: Constant.primaryColorLight,
+                  color: Constants.primaryColorLight,
                 ),
                 Icon(
                   Icons.account_balance,
                   size: 25,
-                  color: Constant.primaryColorLight,
+                  color: Constants.primaryColorLight,
                 ),
                 Icon(
                   Icons.delete,
                   size: 25,
-                  color: Constant.primaryColorLight,
+                  color: Constants.primaryColorLight,
                 ),
               ],
-              color: Constant.primaryColorDark,
-              buttonBackgroundColor: Constant.primaryColorDark,
-              backgroundColor: Constant.primaryColorLight,
+              color: Constants.primaryColorDark,
+              buttonBackgroundColor: Constants.primaryColorDark,
+              backgroundColor: Constants.primaryColorLight,
               animationCurve: Curves.easeInOut,
               animationDuration: Duration(milliseconds: 600),
               onTap: (index) async {

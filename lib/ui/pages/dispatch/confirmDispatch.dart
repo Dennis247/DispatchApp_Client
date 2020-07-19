@@ -1,11 +1,5 @@
 import 'package:dispatch_app_client/src/lib_export.dart';
-import 'package:dispatch_app_client/provider/dispatchProvider.dart';
-import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchStausPage.dart';
-import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmDispatch extends StatefulWidget {
@@ -36,7 +30,7 @@ class _ConfirmDispatchState extends State<ConfirmDispatch> {
 
   @override
   Widget build(BuildContext context) {
-    final appSzie = Constant.getAppSize(context);
+    final appSzie = GlobalWidgets.getAppSize(context);
     final dispatchProvider =
         Provider.of<DispatchProvider>(context, listen: false);
     final notificationProvider =
@@ -105,7 +99,7 @@ class _ConfirmDispatchState extends State<ConfirmDispatch> {
           height: 50,
           alignment: Alignment.center,
           child: _isloading
-              ? Constant.circularInidcator()
+              ? GlobalWidgets.circularInidcator()
               : AppRectButtonWidget(
                   width: appSzie.width,
                   buttonText: "CONFIRM DISPATCH",
@@ -126,7 +120,7 @@ class _ConfirmDispatchState extends State<ConfirmDispatch> {
                           builder: (context) => DispatchStatus(
                                 imageUrl: "assets/images/express.png",
                                 dispatchMessage:
-                                    Constant.processDispatchMessage,
+                                    Constants.processDispatchMessage,
                                 isDispatchProcessing: true,
                               )));
 
@@ -135,7 +129,7 @@ class _ConfirmDispatchState extends State<ConfirmDispatch> {
                       setState(() {
                         _isloading = false;
                       });
-                      Constant.showFialureDialogue(
+                      GlobalWidgets.showFialureDialogue(
                           responseModel.responseMessage, context);
                     }
                   },

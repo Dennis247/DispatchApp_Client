@@ -1,10 +1,7 @@
-import 'package:dispatch_app_client/provider/authProvider.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/ui/pages/auth/loginPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchHistoryPage.dart';
 import 'package:dispatch_app_client/ui/pages/notification/notificationPage.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -22,7 +19,7 @@ class AppDrawer extends StatelessWidget {
             child: ListTile(
               leading: Icon(
                 FontAwesomeIcons.user,
-                color: Constant.primaryColorDark,
+                color: Constants.primaryColorDark,
                 size: 50,
               ),
               title: Text(

@@ -1,13 +1,9 @@
-import 'package:dispatch_app_client/provider/authProvider.dart';
-import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/ui/widgets/notificationWidget.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationPage extends StatelessWidget {
   static final String routeName = "notification-page";
@@ -30,11 +26,14 @@ class NotificationPage extends StatelessWidget {
             }),
       ),
       body: StreamBuilder(
-          stream: notificationRef.orderByChild('notificationDate').onValue,
+          stream: notificationRef
+              .orderByChild('userId')
+              .equalTo(loggedInUser.id)
+              .onValue,
           builder: (context, AsyncSnapshot<Event> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Constant.circularInidcator(),
+                child: GlobalWidgets.circularInidcator(),
               );
             } else {
               if (snapshot.hasError) {

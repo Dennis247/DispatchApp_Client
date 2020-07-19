@@ -1,9 +1,4 @@
-import 'package:dispatch_app_client/provider/authProvider.dart';
-import 'package:dispatch_app_client/ui/widgets/appButtonWidget.dart';
-import 'package:dispatch_app_client/ui/widgets/appInputWidget.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
-import 'package:flutter/material.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -43,20 +38,20 @@ class _UpdatePassowrdState extends State<UpdatePassowrd> {
           .updatePassword(_confirmPasswordController.text);
       if (response.isSUcessfull) {
         _startLoading(false);
-        Constant.showSuccessDialogue(response.responseMessage, context);
+        GlobalWidgets.showSuccessDialogue(response.responseMessage, context);
       } else {
         _startLoading(false);
-        Constant.showFialureDialogue(response.responseMessage, context);
+        GlobalWidgets.showFialureDialogue(response.responseMessage, context);
       }
     } catch (e) {
       _startLoading(false);
-      Constant.showFialureDialogue(e.toString(), context);
+      GlobalWidgets.showFialureDialogue(e.toString(), context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final appSize = Constant.getAppSize(context);
+    final appSize = GlobalWidgets.getAppSize(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -83,7 +78,7 @@ class _UpdatePassowrdState extends State<UpdatePassowrd> {
                 Icon(
                   FontAwesomeIcons.lock,
                   size: 150,
-                  color: Constant.primaryColorDark,
+                  color: Constants.primaryColorDark,
                 ),
                 SizedBox(
                   height: appSize.height * 0.03,
@@ -110,7 +105,7 @@ class _UpdatePassowrdState extends State<UpdatePassowrd> {
                               _confirmPasswordController.text) {
                             return "Password must be same as Confirm Password";
                           }
-                          return Constant.stringValidator(
+                          return Constants.stringValidator(
                               value, "new password");
                         },
                       ),
@@ -127,7 +122,7 @@ class _UpdatePassowrdState extends State<UpdatePassowrd> {
                               _confirmPasswordController.text) {
                             return "Password must be same as Confirm Password";
                           }
-                          return Constant.stringValidator(
+                          return Constants.stringValidator(
                               value, "confirm password");
                         },
                       ),
@@ -135,7 +130,7 @@ class _UpdatePassowrdState extends State<UpdatePassowrd> {
                         height: appSize.height * 0.08,
                       ),
                       _isLoading
-                          ? Constant.circularInidcator()
+                          ? GlobalWidgets.circularInidcator()
                           : AppButtonWudget(
                               buttonText: "SAVE",
                               function: _updatePassword,

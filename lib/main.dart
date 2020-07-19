@@ -1,7 +1,4 @@
-import 'package:dispatch_app_client/provider/authProvider.dart';
-import 'package:dispatch_app_client/provider/dispatchProvider.dart';
-import 'package:dispatch_app_client/provider/googleMpaProvider.dart';
-import 'package:dispatch_app_client/provider/notificatiomProvider.dart';
+import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/ui/pages/auth/loginPage.dart';
 import 'package:dispatch_app_client/ui/pages/auth/signUpPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/confirmDispatch.dart';
@@ -9,9 +6,6 @@ import 'package:dispatch_app_client/ui/pages/dispatch/recipientPage.dart';
 import 'package:dispatch_app_client/ui/pages/home/homePage.dart';
 import 'package:dispatch_app_client/ui/pages/notification/notificationPage.dart';
 import 'package:dispatch_app_client/ui/pages/settings/creditCardPage.dart';
-import 'package:dispatch_app_client/ui/widgets/splashWidget.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:dispatch_app_client/ui/pages/support/supportPage.dart';
 import 'package:dispatch_app_client/ui/pages/settings/settingsPage.dart';
@@ -20,7 +14,6 @@ import 'ui/pages/dispatch/dispatchHistoryPage.dart';
 import 'ui/pages/onBoarding/OnBoardingPage.dart';
 import 'ui/pages/settings/myProfilePage.dart';
 import 'ui/pages/settings/updatePasswordPage.dart';
-import 'utils/customRoute.dart';
 
 void main() {
   runApp(MyApp());
@@ -40,9 +33,9 @@ class MyApp extends StatelessWidget {
         child: Consumer<AUthProvider>(
           builder: (context, authData, _) {
             return MaterialApp(
-              title: 'Dispatch App Rider',
+              title: 'Easy Dispatch',
               theme: ThemeData(
-                  primaryColor: Constant.primaryColorDark,
+                  primaryColor: Constants.primaryColorDark,
                   visualDensity: VisualDensity.adaptivePlatformDensity,
                   pageTransitionsTheme: PageTransitionsTheme(builders: {
                     TargetPlatform.iOS: CustomPageTransitionBuilder(),

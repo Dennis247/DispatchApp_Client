@@ -1,7 +1,5 @@
 import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchDetails.dart';
-import 'package:dispatch_app_client/utils/appStyles.dart';
-import 'package:dispatch_app_client/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -68,6 +66,16 @@ class DispatchHistoryWidget extends StatelessWidget {
     );
   }
 
+  Color _getDispatchTypeColor(String notificationType) {
+    if (notificationType == Constants.pickUpDispatchNotification) {
+      return Colors.deepPurple;
+    } else if (notificationType == Constants.completedDispatchNotification) {
+      return Colors.green;
+    } else if (notificationType == Constants.pendingDispatchNotification) {
+      return Colors.red;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -75,12 +83,13 @@ class DispatchHistoryWidget extends StatelessWidget {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => DispatchDetails(
                   dispatch: dispatch,
+                  isNotificationType: false,
                 )));
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 5),
         child: Card(
-          shadowColor: Constant.primaryColorDark,
+          shadowColor: Constants.primaryColorDark,
           elevation: 2,
           child: Container(
             child: Column(
@@ -92,7 +101,7 @@ class DispatchHistoryWidget extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, top: 20.0),
-                      child: _buildRideInfo(Constant.pickUp,
+                      child: _buildRideInfo(Constants.pickUp,
                           dispatch.pickUpLocation, Colors.green),
                     ),
                     SizedBox(
@@ -100,7 +109,7 @@ class DispatchHistoryWidget extends StatelessWidget {
                     ),
                     Padding(
                         padding: const EdgeInsets.only(left: 20, top: 5),
-                        child: _buildRideInfo(Constant.deliveryAddress,
+                        child: _buildRideInfo(Constants.deliveryAddress,
                             dispatch.dispatchDestination, Colors.red)),
                     SizedBox(
                       height: 5,
@@ -117,11 +126,11 @@ class DispatchHistoryWidget extends StatelessWidget {
                         _buildBottomInfo(
                             Icons.phone,
                             dispatch.dispatchRecieverPhone,
-                            Constant.primaryColorDark),
+                            Constants.primaryColorDark),
                         _buildBottomInfo(
                             FontAwesomeIcons.clock,
                             timeago.format(dispatch.dispatchDate),
-                            Constant.primaryColorDark)
+                            Constants.primaryColorDark)
                       ],
                     ),
                   ],

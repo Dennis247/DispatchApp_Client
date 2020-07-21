@@ -1,7 +1,7 @@
 import 'package:dispatch_app_client/ui/pages/dispatch/confirmDispatch.dart';
 import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 class RecipientPage extends StatefulWidget {
   static final String routeName = "recipient-page";
@@ -93,6 +93,7 @@ class _RecipientPageState extends State<RecipientPage> {
                           prefixIcon: FontAwesomeIcons.phone,
                           obscureText: false,
                           controller: _phoneController,
+                          keyboardType: TextInputType.number,
                           validator: (value) {
                             return Constants.stringValidator(value, "Phone");
                           },

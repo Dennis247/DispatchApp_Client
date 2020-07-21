@@ -27,17 +27,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     //check onBoardingData
-    _tryAutoLogin();
+    // _tryAutoLogin();
     super.initState();
   }
 
-  void _tryAutoLogin() async {
-    bool canAutoLogin =
-        await Provider.of<AUthProvider>(context, listen: false).tryAutoLogin();
-    if (canAutoLogin) {
-      Navigator.of(context).pushReplacementNamed(HompePage.routeName);
-    }
-  }
+  // void _tryAutoLogin() async {
+  //   bool canAutoLogin =
+  //       await Provider.of<AUthProvider>(context, listen: false).tryAutoLogin();
+  //   if (canAutoLogin) {
+  //     Navigator.of(context).pushReplacementNamed(HompePage.routeName);
+  //   }
+  // }
 
   void _loginUser() async {
     dispatchList = [];

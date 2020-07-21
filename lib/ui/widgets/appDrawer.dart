@@ -2,6 +2,7 @@ import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/ui/pages/auth/loginPage.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchHistoryPage.dart';
 import 'package:dispatch_app_client/ui/pages/notification/notificationPage.dart';
+import 'package:dispatch_app_client/ui/pages/settings/appSettings.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -101,6 +102,19 @@ class AppDrawer extends StatelessWidget {
                   },
                   child: Text(
                     "Settings",
+                    style: AppTextStyles.appDarkHeaderTextStyle,
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(AppSettings.routeName);
+                  },
+                  child: Text(
+                    "App Settings",
                     style: AppTextStyles.appDarkHeaderTextStyle,
                   ),
                 ),

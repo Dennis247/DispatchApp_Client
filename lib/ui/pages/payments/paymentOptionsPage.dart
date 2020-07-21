@@ -64,6 +64,29 @@ class _PaymentOptionsState extends State<PaymentOptions> {
     }
   }
 
+  _onlinePaymet() async {
+    OnlinePayment onlinePayment = new OnlinePayment(
+        id: Uuid().v4(),
+        amount: currentDispatch.dispatchTotalFare,
+        email: loggedInUser.email,
+        fullname: loggedInUser.fullName,
+        transactionRef:
+            "EASY-DISP-${DateTime.now()}--${currentDispatch.trackingNo}",
+        orderRef: currentDispatch.trackingNo,
+        date: DateTime.now(),
+        userId: loggedInUser.id,
+        riderId: "empty",
+        dispatchId: currentDispatch.id,
+        narration: currentDispatch.dispatchDescription);
+    var paymentResponse =
+        await Provider.of<PaymentProvider>(context, listen: false)
+            .startPayment(onlinePayment: onlinePayment, context: context);
+    if (!paymentResponse.responseModel.isSUcessfull) {
+      GlobalWidgets.showFialureDialogue(
+          paymentResponse.responseModel.responseMessage, context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final appSzie = GlobalWidgets.getAppSize(context);
@@ -108,23 +131,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
                         width: appSzie.width * 0.8,
                         function: () {
                           //TODO update rider Id for this payment
-                          OnlinePayment onlinePayment = new OnlinePayment(
-                              id: Uuid().v4(),
-                              amount: currentDispatch.dispatchTotalFare,
-                              email: loggedInUser.email,
-                              fullname: loggedInUser.fullName,
-                              transactionRef:
-                                  "EASY-DISP-${DateTime.now()}--${currentDispatch.trackingNo}",
-                              orderRef: currentDispatch.trackingNo,
-                              date: DateTime.now(),
-                              userId: loggedInUser.id,
-                              riderId: "empty",
-                              dispatchId: currentDispatch.id,
-                              narration: currentDispatch.dispatchDescription);
-                          Provider.of<PaymentProvider>(context, listen: false)
-                              .startPayment(
-                                  onlinePayment: onlinePayment,
-                                  context: context);
+                          _onlinePaymet();
                         },
                       )),
                   SizedBox(

@@ -187,7 +187,9 @@ class _DispatchDetailsState extends State<DispatchDetails> {
                         FontAwesomeIcons.mapPin,
                         "Map", () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => DispatchLocation()));
+                            builder: (context) => DispatchLocation(
+                                  dispatch: widget.dispatch,
+                                )));
                       })
                     : SizedBox(),
                 Divider(),

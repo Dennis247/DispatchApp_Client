@@ -3,7 +3,7 @@ import 'package:dispatch_app_client/ui/pages/dispatch/dispatchDetails.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/pickUpDetailsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
+
 import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationWidget extends StatelessWidget {

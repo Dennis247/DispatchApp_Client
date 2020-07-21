@@ -1,44 +1,40 @@
 import 'dart:async';
 import 'package:dispatch_app_client/src/lib_export.dart';
 import 'package:dispatch_app_client/ui/widgets/appDrawer.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
 class DispatchLocation extends StatefulWidget {
   static final routeName = "dispatch-location";
+  final Dispatch dispatch;
+  const DispatchLocation({Key key, this.dispatch}) : super(key: key);
   @override
   _DispatchLocationState createState() => _DispatchLocationState();
 }
 
 class _DispatchLocationState extends State<DispatchLocation> {
+  double _currentRiderLatitude = 0.0;
+  double _currentRiderLongitude;
+  StreamSubscription subscription;
+
   LatLng myLocation = LatLng(6.5244, 3.3792);
   Completer<GoogleMapController> _controller = Completer();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController _fromLocationController = TextEditingController();
-  TextEditingController _toLocationController = TextEditingController();
   BitmapDescriptor _start;
   BitmapDescriptor _end;
-  PlaceDetail _startPlaceDetail = new PlaceDetail();
-  PlaceDetail _endPlaceDetail = new PlaceDetail();
-  Set<Polyline> _polylines = {};
-  List<LatLng> polylineCoordinates = [];
-  PolylinePoints polylinePoints = PolylinePoints();
-  bool _hasGottenCordinates = false;
-  bool _isAutoSuggestedDone = false;
-  String _dispatchStartAddress = "";
-  String _dispatchEndAddress = "";
-
+  // PlaceDetail _startPlaceDetail = new PlaceDetail();
+  //PlaceDetail _endPlaceDetail = new PlaceDetail();
   Set<Marker> _markers = {};
   LatLngBounds bound;
-  var uuid = Uuid();
   String _mapStyle;
-  var sessionToken;
-  int _selectedIdnex = -1;
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
+  }
+
   @override
   void initState() {
     BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5),
@@ -55,6 +51,38 @@ class _DispatchLocationState extends State<DispatchLocation> {
 
     rootBundle.loadString('assets/images/map_style.txt').then((string) {
       _mapStyle = string;
+    });
+
+    subscription =
+        riderRef.child(widget.dispatch.dispatchRiderId).onValue.listen((event) {
+      setState(() {
+        _currentRiderLatitude = event.snapshot.value['latitude'];
+        _currentRiderLongitude = event.snapshot.value['longitude'];
+      });
+      //animate camera here
+      _markers = {
+        Marker(
+          markerId: MarkerId("xxx"),
+          position: LatLng(_currentRiderLatitude, _currentRiderLongitude),
+          icon: _start,
+          infoWindow: InfoWindow(
+            title: "Rider",
+            snippet: "",
+          ),
+        ),
+        Marker(
+          markerId: MarkerId("zzz"),
+          position: LatLng(widget.dispatch.destinationLatitude,
+              widget.dispatch.destinationLongitude),
+          icon: _end,
+          infoWindow: InfoWindow(
+            title: "destination",
+            snippet: widget.dispatch.dispatchDestination,
+          ),
+        ),
+      };
+
+      _moveCamera();
     });
     super.initState();
   }
@@ -85,101 +113,37 @@ class _DispatchLocationState extends State<DispatchLocation> {
       check(u, c);
   }
 
-  void _clearCordinate() {
-    setState(() {
-      _fromLocationController.clear();
-      _toLocationController.clear();
-      _hasGottenCordinates = false;
-      _polylines = {};
-      _markers.clear();
-    });
-  }
-
-  setPolylines() async {
-    polylineCoordinates.clear();
-    _polylines.clear();
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        Constants.apiKey,
-        PointLatLng(_startPlaceDetail.lat, _startPlaceDetail.lng),
-        PointLatLng(_endPlaceDetail.lat, _endPlaceDetail.lng),
-        travelMode: TravelMode.driving,
-        wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]);
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
-    }
-    setState(() {
-      Polyline polyline = Polyline(
-          polylineId: PolylineId('poly'),
-          color: Constants.primaryColorDark,
-          width: 4,
-          points: polylineCoordinates);
-      _polylines.add(polyline);
-      _hasGottenCordinates = true;
-    });
-  }
-
   void _moveCamera() async {
-    if (_markers.length > 0) {
-      setState(() {
-        _markers.clear();
-      });
-    }
-    if (_toLocationController.text != "" &&
-        _fromLocationController.text != "") {
-      _getLatLngBounds(LatLng(_startPlaceDetail.lat, _startPlaceDetail.lng),
-          LatLng(_endPlaceDetail.lat, _endPlaceDetail.lng));
-      GoogleMapController controller = await _controller.future;
-      CameraUpdate u2 = CameraUpdate.newLatLngBounds(bound, 50);
-      controller.animateCamera(u2).then((void v) {
-        check(u2, controller);
-      });
-    }
-
     setState(() {
-      if (_fromLocationController.text != "" && _startPlaceDetail != null) {
-        _markers.add(
-          Marker(
-            markerId: MarkerId(_startPlaceDetail.placeId),
-            position: LatLng(_startPlaceDetail.lat, _startPlaceDetail.lng),
-            icon: _start,
-            infoWindow: InfoWindow(
-              title: "pick up",
-              snippet: _dispatchStartAddress,
-            ),
-          ),
-        );
-      }
-
-      if (_toLocationController.text != "" && _endPlaceDetail != null) {
-        _markers.add(
-          Marker(
-            markerId: MarkerId(_endPlaceDetail.placeId),
-            position: LatLng(_endPlaceDetail.lat, _endPlaceDetail.lng),
-            icon: _end,
-            infoWindow: InfoWindow(
-              title: "destination",
-              snippet: _dispatchEndAddress,
-            ),
-          ),
-        );
-      }
+      _markers.remove(_markers.elementAt(0));
     });
-
-    if (_toLocationController.text != "" &&
-        _endPlaceDetail != null &&
-        _fromLocationController.text != "" &&
-        _startPlaceDetail != null) {
-      await setPolylines();
-    }
+    _getLatLngBounds(
+        LatLng(_currentRiderLatitude, _currentRiderLongitude),
+        LatLng(widget.dispatch.destinationLatitude,
+            widget.dispatch.destinationLongitude));
+    GoogleMapController controller = await _controller.future;
+    CameraUpdate u2 = CameraUpdate.newLatLngBounds(bound, 50);
+    controller.animateCamera(u2).then((void v) {
+      check(u2, controller);
+    });
+    setState(() {
+      _markers.add(
+        Marker(
+          markerId: MarkerId("xxx"),
+          position: LatLng(_currentRiderLatitude, _currentRiderLongitude),
+          icon: _start,
+          infoWindow: InfoWindow(
+            title: "Rider",
+            snippet: "",
+          ),
+        ),
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final appSize = GlobalWidgets.getAppSize(context);
-    final googleMapProvider =
-        Provider.of<GoogleMapProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -207,7 +171,7 @@ class _DispatchLocationState extends State<DispatchLocation> {
             mapType: MapType.normal,
             zoomGesturesEnabled: true,
             markers: _markers,
-            polylines: _polylines,
+            //  polylines: _polylines,
             initialCameraPosition: CameraPosition(target: myLocation, zoom: 12),
             onMapCreated: (GoogleMapController controller) {
               controller.setMapStyle(_mapStyle);

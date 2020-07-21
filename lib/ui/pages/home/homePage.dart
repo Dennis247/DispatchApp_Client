@@ -87,15 +87,15 @@ class _HompePageState extends State<HompePage> {
       check(u, c);
   }
 
-  void _clearCordinate() {
-    setState(() {
-      _fromLocationController.clear();
-      _toLocationController.clear();
-      _hasGottenCordinates = false;
-      _polylines = {};
-      _markers.clear();
-    });
-  }
+  // void _clearCordinate() {
+  //   setState(() {
+  //     _fromLocationController.clear();
+  //     _toLocationController.clear();
+  //     _hasGottenCordinates = false;
+  //     _polylines = {};
+  //     _markers.clear();
+  //   });
+  // }
 
   setPolylines() async {
     polylineCoordinates.clear();
@@ -246,6 +246,7 @@ class _HompePageState extends State<HompePage> {
       color: Constants.primaryColorLight,
       width: appSize.width,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           _buildAutoSuggestion(
               cntroller: _fromLocationController,
@@ -292,8 +293,13 @@ class _HompePageState extends State<HompePage> {
         });
 
         final ResponseModel responseModel =
-            await dispatchProvider.createDispatch(dispatchType,
-                _dispatchStartAddress, _dispatchEndAddress, sessionToken);
+            await dispatchProvider.createDispatch(
+                dispatchType,
+                _dispatchStartAddress,
+                _dispatchEndAddress,
+                sessionToken,
+                _endPlaceDetail,
+                "");
         setState(() {
           _isloading = false;
         });
@@ -397,7 +403,6 @@ class _HompePageState extends State<HompePage> {
     );
   }
 
-
   _buildBottomSheetConfirmation(Dispatch dispatch, String image) async {
     final appSize = GlobalWidgets.getAppSize(context);
     return showModalBottomSheet(
@@ -441,7 +446,7 @@ class _HompePageState extends State<HompePage> {
                       Divider(),
                       _buildListTileDialogue("Total Delivery Fee", "N 5000"),
                       SizedBox(
-                        height: appSize.height * 0.02,
+                        height: appSize.height * 0.04,
                       ),
                       AppSmallButtonWudget(
                         function: () {

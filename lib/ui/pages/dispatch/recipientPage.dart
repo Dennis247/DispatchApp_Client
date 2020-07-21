@@ -39,7 +39,10 @@ class _RecipientPageState extends State<RecipientPage> {
         estimatedDistance: currentDispatch.estimatedDistance,
         dispatchReciever: _nameController.text.trim(),
         dispatchRecieverPhone: _phoneController.text.trim(),
-        dispatchDescription: _packageDescriptionController.text);
+        dispatchDescription: _packageDescriptionController.text,
+        destinationLatitude: currentDispatch.destinationLatitude,
+        destinationLongitude: currentDispatch.destinationLongitude,
+        paymentOption: currentDispatch.paymentOption);
 
     Navigator.of(context).pushNamed(ConfirmDispatch.routeName);
   }

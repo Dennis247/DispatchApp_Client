@@ -1,16 +1,9 @@
 import 'package:dispatch_app_client/src/lib_export.dart';
-import 'package:dispatch_app_client/ui/pages/dispatch/dispatchStausPage.dart';
-import 'package:provider/provider.dart';
+import 'package:dispatch_app_client/ui/pages/payments/paymentOptionsPage.dart';
 
-class ConfirmDispatch extends StatefulWidget {
+class ConfirmDispatch extends StatelessWidget {
   static final String routeName = "confirm-dispatch";
 
-  @override
-  _ConfirmDispatchState createState() => _ConfirmDispatchState();
-}
-
-class _ConfirmDispatchState extends State<ConfirmDispatch> {
-  bool _isloading = false;
   _buildConfrimRowItem(String title, String subTitle) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -31,10 +24,7 @@ class _ConfirmDispatchState extends State<ConfirmDispatch> {
   @override
   Widget build(BuildContext context) {
     final appSzie = GlobalWidgets.getAppSize(context);
-    final dispatchProvider =
-        Provider.of<DispatchProvider>(context, listen: false);
-    final notificationProvider =
-        Provider.of<NotificationProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -98,42 +88,43 @@ class _ConfirmDispatchState extends State<ConfirmDispatch> {
         child: Container(
           height: 50,
           alignment: Alignment.center,
-          child: _isloading
-              ? GlobalWidgets.circularInidcator()
-              : AppRectButtonWidget(
-                  width: appSzie.width,
-                  buttonText: "CONFIRM DISPATCH",
-                  function: () async {
-                    setState(() {
-                      _isloading = true;
-                    });
-                    final ResponseModel responseModel =
-                        await dispatchProvider.addDispatch(currentDispatch);
-                    if (responseModel.isSUcessfull) {
-                      //show custom sucess dialogue before navigating
-                      notificationProvider.displayNotification(
-                          "Dispatch Sucessfull",
-                          "Dispatch Rider on the way for pick up!");
-                      //send pending notification
+          child: AppRectButtonWidget(
+            width: appSzie.width,
+            buttonText: "CONFIRM DISPATCH",
+            function: () async {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return PaymentOptions();
+              }));
+              // setState(() {
+              //   _isloading = true;
+              // });
+              // final ResponseModel responseModel =
+              //     await dispatchProvider.addDispatch(currentDispatch);
+              // if (responseModel.isSUcessfull) {
+              //   //show custom sucess dialogue before navigating
+              //   notificationProvider.displayNotification(
+              //       "Dispatch Sucessfull",
+              //       "Dispatch Rider on the way for pick up!");
+              //   //send pending notification
 
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => DispatchStatus(
-                                imageUrl: "assets/images/express.png",
-                                dispatchMessage:
-                                    Constants.processDispatchMessage,
-                                isDispatchProcessing: true,
-                              )));
+              //   Navigator.of(context).pushReplacement(MaterialPageRoute(
+              //       builder: (context) => DispatchStatus(
+              //             imageUrl: "assets/images/express.png",
+              //             dispatchMessage:
+              //                 Constants.processDispatchMessage,
+              //             isDispatchProcessing: true,
+              //           )));
 
-                      //show dispatch notification
-                    } else {
-                      setState(() {
-                        _isloading = false;
-                      });
-                      GlobalWidgets.showFialureDialogue(
-                          responseModel.responseMessage, context);
-                    }
-                  },
-                ),
+              //   //show dispatch notification
+              // } else {
+              //   setState(() {
+              //     _isloading = false;
+              //   });
+              //   GlobalWidgets.showFialureDialogue(
+              //       responseModel.responseMessage, context);
+              // }
+            },
+          ),
         ),
       ),
     );

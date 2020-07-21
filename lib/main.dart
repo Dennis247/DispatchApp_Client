@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider.value(value: GoogleMapProvider()),
           ChangeNotifierProvider.value(value: DispatchProvider()),
           ChangeNotifierProvider.value(value: AUthProvider()),
-          ChangeNotifierProvider.value(value: NotificationProvider())
+          ChangeNotifierProvider.value(value: NotificationProvider()),
+          ChangeNotifierProvider.value(value: PaymentProvider())
         ],
         child: Consumer<AUthProvider>(
           builder: (context, authData, _) {

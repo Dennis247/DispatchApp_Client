@@ -66,15 +66,15 @@ class DispatchHistoryWidget extends StatelessWidget {
     );
   }
 
-  Color _getDispatchTypeColor(String notificationType) {
-    if (notificationType == Constants.pickUpDispatchNotification) {
-      return Colors.deepPurple;
-    } else if (notificationType == Constants.completedDispatchNotification) {
-      return Colors.green;
-    } else if (notificationType == Constants.pendingDispatchNotification) {
-      return Colors.red;
-    }
-  }
+  // Color _getDispatchTypeColor(String notificationType) {
+  //   if (notificationType == Constants.pickUpDispatchNotification) {
+  //     return Colors.deepPurple;
+  //   } else if (notificationType == Constants.completedDispatchNotification) {
+  //     return Colors.green;
+  //   } else if (notificationType == Constants.pendingDispatchNotification) {
+  //     return Colors.red;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

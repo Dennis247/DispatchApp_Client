@@ -1,4 +1,5 @@
 import 'package:dispatch_app_client/src/lib_export.dart';
+import 'package:dispatch_app_client/ui/pages/dispatch/demoDispatchLocation.dart';
 import 'package:dispatch_app_client/ui/pages/dispatch/dispatchStausPage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -186,10 +187,20 @@ class _DispatchDetailsState extends State<DispatchDetails> {
                         widget.dispatch.currentLocation,
                         FontAwesomeIcons.mapPin,
                         "Map", () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => DispatchLocation(
-                                  dispatch: widget.dispatch,
-                                )));
+                        //check to see if it demo mode and display demo else use real time
+                        final settings =
+                            locator<SettingsServices>().appSettings;
+                        if (settings.isDemoMode) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => DemoDispatchLocation(
+                                    dispatch: widget.dispatch,
+                                  )));
+                        } else {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => DispatchLocation(
+                                    dispatch: widget.dispatch,
+                                  )));
+                        }
                       })
                     : SizedBox(),
                 Divider(),

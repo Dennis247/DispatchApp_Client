@@ -16,7 +16,13 @@ import 'ui/pages/settings/appSettings.dart';
 import 'ui/pages/settings/myProfilePage.dart';
 import 'ui/pages/settings/updatePasswordPage.dart';
 
+void setupLocator() {
+  locator.registerSingleton<SettingsServices>(SettingsServices());
+  locator.registerSingleton<GoogleMapServices>(GoogleMapServices());
+}
+
 void main() {
+  setupLocator();
   runApp(MyApp());
 }
 

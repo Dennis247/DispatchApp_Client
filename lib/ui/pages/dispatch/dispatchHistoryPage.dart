@@ -31,12 +31,13 @@ class _DispatchHistoryPageState extends State<DispatchHistoryPage> {
     final ResponseModel responseModel =
         await Provider.of<DispatchProvider>(context, listen: false)
             .getDispatchList();
-    _startLoading(false);
+
     if (responseModel.isSUcessfull) {
       _currentDispatchList = dispatchList;
     } else {
       GlobalWidgets.showFialureDialogue(responseModel.responseMessage, context);
     }
+    _startLoading(false);
   }
 
   int _page = 0;

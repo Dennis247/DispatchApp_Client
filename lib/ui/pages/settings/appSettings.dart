@@ -10,11 +10,12 @@ class _AppSettingsState extends State<AppSettings> {
   TextEditingController _countryAbbvController = new TextEditingController();
   bool _isDemoMode = false;
   final _formKey = GlobalKey<FormState>();
-  bool _isLoading;
+  bool _isLoading = false;
   @override
   void initState() {
-    _countryAbbvController.text = appSettings.countryAbbrevation;
-    _isDemoMode = appSettings.isDemoMode;
+    _countryAbbvController.text =
+        locator<SettingsServices>().appSettings.countryAbbrevation;
+    _isDemoMode = locator<SettingsServices>().appSettings.isDemoMode;
     super.initState();
   }
 
@@ -40,14 +41,13 @@ class _AppSettingsState extends State<AppSettings> {
           countryAbbrevation: _countryAbbvController.text,
           isDemoMode: _isDemoMode);
       final response =
-          await Provider.of<SettingsProvider>(context, listen: false)
-              .saveAppSettings(settings);
+          await locator<SettingsServices>().saveAppSettings(settings);
       if (response.isSUcessfull) {
         GlobalWidgets.showSuccessDialogue(response.responseMessage, context);
       } else {
-        _startLoading(false);
         GlobalWidgets.showFialureDialogue(response.responseMessage, context);
       }
+      _startLoading(false);
     } catch (e) {
       _startLoading(false);
       GlobalWidgets.showFialureDialogue(e.toString(), context);
@@ -129,9 +129,18 @@ class _AppSettingsState extends State<AppSettings> {
                                 style: AppTextStyles.appTextStyle,
                               ),
                             ),
-                            Switch(value: true, onChanged: (bool value) {})
+                            Switch(
+                                value: _isDemoMode,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    _isDemoMode = value;
+                                  });
+                                })
                           ],
-                        )
+                        ),
+                        _isLoading
+                            ? GlobalWidgets.circularInidcator()
+                            : Text("")
                       ],
                     ),
                   ),

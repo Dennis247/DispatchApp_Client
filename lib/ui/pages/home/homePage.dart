@@ -4,7 +4,6 @@ import 'package:dispatch_app_client/ui/pages/dispatch/recipientPage.dart';
 import 'package:dispatch_app_client/ui/widgets/appDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -27,8 +26,8 @@ class _HompePageState extends State<HompePage> {
   PlaceDetail _startPlaceDetail = new PlaceDetail();
   PlaceDetail _endPlaceDetail = new PlaceDetail();
   Set<Polyline> _polylines = {};
-  List<LatLng> polylineCoordinates = [];
-  PolylinePoints polylinePoints = PolylinePoints();
+  // List<LatLng> polylineCoordinates = [];
+  // PolylinePoints polylinePoints = PolylinePoints();
   bool _hasGottenCordinates = false;
   bool _isAutoSuggestedDone = false;
   bool _isloading = false;
@@ -36,7 +35,7 @@ class _HompePageState extends State<HompePage> {
   String _dispatchEndAddress = "";
 
   Set<Marker> _markers = {};
-  LatLngBounds bound;
+  // LatLngBounds bound;
   var uuid = Uuid();
   String _mapStyle;
   var sessionToken;
@@ -61,21 +60,21 @@ class _HompePageState extends State<HompePage> {
     super.initState();
   }
 
-  void _getLatLngBounds(LatLng from, LatLng to) {
-    if (from.latitude > to.latitude && from.longitude > to.longitude) {
-      bound = LatLngBounds(southwest: to, northeast: from);
-    } else if (from.longitude > to.longitude) {
-      bound = LatLngBounds(
-          southwest: LatLng(from.latitude, to.longitude),
-          northeast: LatLng(to.latitude, from.longitude));
-    } else if (from.latitude > to.latitude) {
-      bound = LatLngBounds(
-          southwest: LatLng(to.latitude, from.longitude),
-          northeast: LatLng(from.latitude, to.longitude));
-    } else {
-      bound = LatLngBounds(southwest: from, northeast: to);
-    }
-  }
+  // void _getLatLngBounds(LatLng from, LatLng to) {
+  //   if (from.latitude > to.latitude && from.longitude > to.longitude) {
+  //     bound = LatLngBounds(southwest: to, northeast: from);
+  //   } else if (from.longitude > to.longitude) {
+  //     bound = LatLngBounds(
+  //         southwest: LatLng(from.latitude, to.longitude),
+  //         northeast: LatLng(to.latitude, from.longitude));
+  //   } else if (from.latitude > to.latitude) {
+  //     bound = LatLngBounds(
+  //         southwest: LatLng(to.latitude, from.longitude),
+  //         northeast: LatLng(from.latitude, to.longitude));
+  //   } else {
+  //     bound = LatLngBounds(southwest: from, northeast: to);
+  //   }
+  // }
 
   void check(CameraUpdate u, GoogleMapController c) async {
     c.animateCamera(u);
@@ -97,32 +96,33 @@ class _HompePageState extends State<HompePage> {
   //   });
   // }
 
-  setPolylines() async {
-    polylineCoordinates.clear();
-    _polylines.clear();
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        Constants.apiKey,
-        PointLatLng(_startPlaceDetail.lat, _startPlaceDetail.lng),
-        PointLatLng(_endPlaceDetail.lat, _endPlaceDetail.lng),
-        travelMode: TravelMode.driving,
-        wayPoints: []);
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
-    }
-    setState(() {
-      Polyline polyline = Polyline(
-          polylineId: PolylineId('poly'),
-          color: Constants.primaryColorDark,
-          width: 4,
-          points: polylineCoordinates);
-      _polylines.add(polyline);
-      _hasGottenCordinates = true;
-    });
-  }
+  // setPolylines() async {
+  //   polylineCoordinates.clear();
+  //   _polylines.clear();
+  //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+  //       Constants.apiKey,
+  //       PointLatLng(_startPlaceDetail.lat, _startPlaceDetail.lng),
+  //       PointLatLng(_endPlaceDetail.lat, _endPlaceDetail.lng),
+  //       travelMode: TravelMode.driving,
+  //       wayPoints: []);
+  //   if (result.points.isNotEmpty) {
+  //     result.points.forEach((PointLatLng point) {
+  //       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+  //     });
+  //   }
+  //   setState(() {
+  //     Polyline polyline = Polyline(
+  //         polylineId: PolylineId('poly'),
+  //         color: Constants.primaryColorDark,
+  //         width: 4,
+  //         points: polylineCoordinates);
+  //     _polylines.add(polyline);
+  //     _hasGottenCordinates = true;
+  //   });
+  // }
 
   void _moveCamera() async {
+    final mapService = locator<GoogleMapServices>();
     if (_markers.length > 0) {
       setState(() {
         _markers.clear();
@@ -130,10 +130,11 @@ class _HompePageState extends State<HompePage> {
     }
     if (_toLocationController.text != "" &&
         _fromLocationController.text != "") {
-      _getLatLngBounds(LatLng(_startPlaceDetail.lat, _startPlaceDetail.lng),
+      locator<GoogleMapServices>().getLatLngBounds(
+          LatLng(_startPlaceDetail.lat, _startPlaceDetail.lng),
           LatLng(_endPlaceDetail.lat, _endPlaceDetail.lng));
       GoogleMapController controller = await _controller.future;
-      CameraUpdate u2 = CameraUpdate.newLatLngBounds(bound, 50);
+      CameraUpdate u2 = CameraUpdate.newLatLngBounds(mapService.bounds, 50);
       controller.animateCamera(u2).then((void v) {
         check(u2, controller);
       });
@@ -173,12 +174,23 @@ class _HompePageState extends State<HompePage> {
         _endPlaceDetail != null &&
         _fromLocationController.text != "" &&
         _startPlaceDetail != null) {
-      await setPolylines();
+      final polyLines = await mapService.getPolyLines(_startPlaceDetail.lat,
+          _startPlaceDetail.lng, _endPlaceDetail.lat, _endPlaceDetail.lng);
+      setState(() {
+        _polylines.clear();
+        Polyline polyline = Polyline(
+            polylineId: PolylineId('poly'),
+            color: Constants.primaryColorDark,
+            width: 4,
+            points: polyLines);
+        _polylines.add(polyline);
+        _hasGottenCordinates = true;
+      });
     }
   }
 
   _buildAutoSuggestion({
-    @required GoogleMapProvider googleMapProvider,
+    @required GoogleMapServices googleMpaService,
     @required String label,
     @required String imagePath,
     @required TextEditingController cntroller,
@@ -215,7 +227,7 @@ class _HompePageState extends State<HompePage> {
           sessionToken = uuid.v4();
         }
         if (pattern.length > 1)
-          return await googleMapProvider.getSuggestions(pattern, sessionToken);
+          return await googleMpaService.getSuggestions(pattern, sessionToken);
         return null;
       },
       itemBuilder: (context, suggetion) {
@@ -230,7 +242,7 @@ class _HompePageState extends State<HompePage> {
       },
       onSuggestionSelected: (suggetion) async {
         cntroller.text = suggetion.description;
-        placeDetail = await googleMapProvider.getPlaceDetail(
+        placeDetail = await googleMpaService.getPlaceDetail(
             suggetion.placeId, sessionToken);
         isTo
             ? _dispatchEndAddress = suggetion.description
@@ -241,7 +253,7 @@ class _HompePageState extends State<HompePage> {
     );
   }
 
-  _buildSelectLocation(Size appSize, GoogleMapProvider googleMapProvider) {
+  _buildSelectLocation(Size appSize, GoogleMapServices googleMpaService) {
     return Container(
       color: Constants.primaryColorLight,
       width: appSize.width,
@@ -250,19 +262,19 @@ class _HompePageState extends State<HompePage> {
         children: <Widget>[
           _buildAutoSuggestion(
               cntroller: _fromLocationController,
-              googleMapProvider: googleMapProvider,
+              googleMpaService: googleMpaService,
               label: "From",
               imagePath: "assets/images/start.png",
               labelTextSTyle: AppTextStyles.greenlabelTextStyle,
-              placeDetail: _startPlaceDetail,
+              placeDetail: googleMpaService.startPlaceDetail,
               isTo: false),
           _buildAutoSuggestion(
               cntroller: _toLocationController,
-              googleMapProvider: googleMapProvider,
+              googleMpaService: googleMpaService,
               label: "To",
               imagePath: "assets/images/end.png",
               labelTextSTyle: AppTextStyles.redlabelTextStyle,
-              placeDetail: _endPlaceDetail,
+              placeDetail: googleMpaService.endPlaceDetail,
               isTo: true),
           SizedBox(
             height: appSize.height * 0.03,
@@ -298,7 +310,7 @@ class _HompePageState extends State<HompePage> {
                 _dispatchStartAddress,
                 _dispatchEndAddress,
                 sessionToken,
-                _endPlaceDetail,
+                locator<GoogleMapServices>().endPlaceDetail,
                 "");
         setState(() {
           _isloading = false;
@@ -468,8 +480,10 @@ class _HompePageState extends State<HompePage> {
   @override
   Widget build(BuildContext context) {
     final appSize = GlobalWidgets.getAppSize(context);
-    final googleMapProvider =
-        Provider.of<GoogleMapProvider>(context, listen: false);
+    // final googleMapProvider =
+    //     Provider.of<GoogleMapProvider>(context, listen: false);
+    final gooGleMapService = locator<GoogleMapServices>();
+
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
@@ -522,7 +536,7 @@ class _HompePageState extends State<HompePage> {
 
                     child: _isAutoSuggestedDone
                         ? _buildSelectDispatchType()
-                        : _buildSelectLocation(appSize, googleMapProvider),
+                        : _buildSelectLocation(appSize, gooGleMapService),
                     // child:
                     // )
                     // //
